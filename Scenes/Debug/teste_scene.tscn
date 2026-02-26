@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cayacju2eb3pc"]
+
+[ext_resource type="PackedScene" uid="uid://db27khuarbhe8" path="res://Scenes/Ball/ball.tscn" id="1_7flqa"]
+[ext_resource type="PackedScene" uid="uid://c7oqcxfmhw1ua" path="res://Scenes/Paddle/paddle.tscn" id="2_kcolr"]
+[ext_resource type="Script" uid="uid://5df4o1jdoeaa" path="res://Scripts/System/GameManager.cs" id="3_i38ue"]
+
+[node name="TesteScene" type="Node2D" unique_id=998402233]
+
+[node name="Ball" parent="." unique_id=1367837317 instance=ExtResource("1_7flqa")]
+position = Vector2(302, 161)
+ballSpeed = 100.0
+direction = Vector2(-1, 1)
+
+[node name="Paddle" parent="." unique_id=1295269333 instance=ExtResource("2_kcolr")]
+position = Vector2(9, 174)
+speed = 500.0
+
+[node name="GameManager" type="Node" parent="." unique_id=1688991970]
+script = ExtResource("3_i38ue")
