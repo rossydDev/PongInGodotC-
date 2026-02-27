@@ -9,8 +9,19 @@ public partial class Paddle : Actor
   {
     Vector2 nextPosition = Position + direction * speed * delta;
 
-    nextPosition.Y = GameManager.Instance.ClampY(nextPosition.Y, spriteHeihgt);
+    nextPosition.Y = GameManager.Instance.ClampY(nextPosition.Y, spriteWidth);
 
     Position = nextPosition;
+  }
+
+  public void MoveTowards(float targetX, float delta)
+  {
+    float dir = Mathf.Sign(targetX - GlobalPosition.X);
+    Position += new Vector2(dir, 0) * speed * delta;
+  }
+
+  public void SetX(float x)
+  {
+    Position = new Vector2(x, Position.Y);
   }
 }

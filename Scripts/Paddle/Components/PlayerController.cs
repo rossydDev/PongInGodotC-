@@ -10,7 +10,7 @@ public partial class PlayerController : Node
 
     Vector2 direction = Vector2.Zero;
 
-    direction.Y = Input.GetAxis("MoveUp", "MoveDown");
+    direction.X = Input.GetAxis("MoveLeft", "MoveRight");
 
     paddle.Move(direction, (float)delta);
   }

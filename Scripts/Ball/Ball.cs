@@ -7,9 +7,13 @@ public partial class Ball : Actor
   [Export] private Vector2 direction = Vector2.Left;
   [Export] private Area2D area2D;
 
+  public Vector2 Velocity => direction * ballSpeed;
+
   public override void _Ready()
   {
     base._Ready();
+
+    GameManager.Instance.SetCurrentBall(this);
 
     area2D.AreaEntered += OnAreaEntered;
   }
@@ -18,7 +22,7 @@ public partial class Ball : Actor
   {
     if (area.GetOwner<Paddle>() is not null)
     {
-      PongTheBall(true);
+      PongTheBallInPaddle();
     }
   }
 
@@ -31,19 +35,19 @@ public partial class Ball : Actor
   {
     Position += direction * (ballSpeed * delta);
 
-    if (GameManager.Instance.IsOutOfBounds(Position, spriteHeihgt))
+    if (GameManager.Instance.IsOutOfBounds(Position, spriteWidth))
     {
       PongTheBall();
     }
   }
 
-  private void PongTheBall(bool colliderWithPaddle = false)
+  private void PongTheBall()
   {
-    if (colliderWithPaddle)
-    {
-      direction.X *= -1;
-    }
+    direction.X *= -1;
+  }
 
+  private void PongTheBallInPaddle()
+  {
     direction.Y *= -1;
   }
 

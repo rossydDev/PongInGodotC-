@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cu8p4x8jfwfpg"]
+
+[ext_resource type="PackedScene" uid="uid://c7oqcxfmhw1ua" path="res://Scenes/Paddle/paddle.tscn" id="1_prvgx"]
+[ext_resource type="Script" uid="uid://b41dyu5l01cah" path="res://Scripts/Components/StateMachine/StateMachine.cs" id="2_3qjmf"]
+[ext_resource type="Script" uid="uid://du40aj4q4gl3" path="res://Scripts/Paddle/Components/States/PaddlePredictState.cs" id="3_prvgx"]
+
+[node name="PaddleIA" unique_id=1295269333 instance=ExtResource("1_prvgx")]
+speed = 100.0
+
+[node name="StateMachine" type="Node" parent="." index="2" unique_id=460496529 node_paths=PackedStringArray("currentState")]
+script = ExtResource("2_3qjmf")
+currentState = NodePath("PredictState")
+
+[node name="PredictState" type="Node" parent="StateMachine" index="0" unique_id=747938848]
+script = ExtResource("3_prvgx")

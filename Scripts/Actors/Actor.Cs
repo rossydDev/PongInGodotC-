@@ -4,14 +4,16 @@ public partial class Actor : Node2D
 {
   [Export] private Sprite2D sprite2D;
 
-  protected float spriteHeihgt;
+  protected float spriteWidth;
 
   public override void _Ready()
   {
     Vector2 size = sprite2D.Texture.GetSize();
 
-    spriteHeihgt = size.X * sprite2D.Scale.Y;
+    spriteWidth = size.X * sprite2D.Scale.X;
 
-    spriteHeihgt *= 0.5f;
+    spriteWidth *= 0.5f;
+
+    GD.Print(spriteWidth);
   }
 }

@@ -2,10 +2,9 @@
 
 [ext_resource type="Script" uid="uid://bhd57u3h0xedm" path="res://Scripts/Paddle/Paddle.cs" id="1_iwrur"]
 [ext_resource type="Texture2D" uid="uid://beqf6rgar1fkn" path="res://Assets/breakout_pixel_art/paddle_small.png" id="2_7migt"]
-[ext_resource type="Script" uid="uid://w5pttgsj4s2x" path="res://Scripts/Paddle/Components/PlayerController.cs" id="3_7migt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iwrur"]
-size = Vector2(8, 60)
+size = Vector2(60, 8)
 
 [node name="Paddle" type="Node2D" unique_id=1295269333 node_paths=PackedStringArray("sprite2D")]
 script = ExtResource("1_iwrur")
@@ -17,9 +16,4 @@ sprite2D = NodePath("Sprite2D")
 shape = SubResource("RectangleShape2D_iwrur")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=134558618]
-rotation = 1.5707964
 texture = ExtResource("2_7migt")
-
-[node name="PlayerController" type="Node" parent="." unique_id=328275909 node_paths=PackedStringArray("paddle")]
-script = ExtResource("3_7migt")
-paddle = NodePath("..")
