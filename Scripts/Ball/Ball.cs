@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Ball : Actor
 {
@@ -7,15 +6,21 @@ public partial class Ball : Actor
   [Export] private Vector2 direction = Vector2.Left;
   [Export] private Area2D area2D;
 
+  private Vector2[] vectorsDirections = [
+    new Vector2(1,1),
+    new Vector2(1,-1),
+    new Vector2(-1, 1),
+    new Vector2 (-1, -1)
+  ];
+
   public Vector2 Velocity => direction * ballSpeed;
 
   public override void _Ready()
   {
     base._Ready();
 
-    GameManager.Instance.SetCurrentBall(this);
-
     area2D.AreaEntered += OnAreaEntered;
+    PickRandomOriginDirection();
   }
 
   private void OnAreaEntered(Area2D area)
@@ -49,6 +54,13 @@ public partial class Ball : Actor
   private void PongTheBallInPaddle()
   {
     direction.Y *= -1;
+  }
+
+  private void PickRandomOriginDirection()
+  {
+    var index = (int)GD.Randi() % vectorsDirections.Length;
+
+    direction = vectorsDirections[index];
   }
 
 }

@@ -2,7 +2,7 @@ using Godot;
 
 public partial class PaddleState : State
 {
-  protected Paddle paddle;
+  protected PaddleIA paddle;
 
   public override void Initialize(StateMachine stateMachine)
   {
@@ -10,7 +10,7 @@ public partial class PaddleState : State
 
     if (stateMachine.GetOwner() is Paddle)
     {
-      paddle = (Paddle)stateMachine.GetOwner();
+      paddle = (PaddleIA)stateMachine.GetOwner();
     }
   }
 }

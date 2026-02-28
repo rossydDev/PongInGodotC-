@@ -60,4 +60,20 @@ public partial class StateMachine : Node
     currentState.Enter();
   }
 
+  public void SwitchState(State newState)
+  {
+    if (currentState == newState) return;
+
+    foreach (State state in states)
+    {
+      if (state == newState)
+      {
+        currentState.Exit();
+        currentState = newState;
+        currentState.Enter();
+        break;
+      }
+    }
+  }
+
 }
