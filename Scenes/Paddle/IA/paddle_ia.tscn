@@ -4,13 +4,14 @@
 [ext_resource type="Script" uid="uid://b41dyu5l01cah" path="res://Scripts/Components/StateMachine/StateMachine.cs" id="2_3qjmf"]
 [ext_resource type="Script" uid="uid://cgkcqnoihcit7" path="res://Scripts/Paddle/Components/IA/PaddleIA.cs" id="2_nsw54"]
 [ext_resource type="Script" uid="uid://bmnojq5exy50l" path="res://Scripts/Paddle/Components/IA/States/PaddleIdleState.cs" id="3_3qjmf"]
-[ext_resource type="Script" uid="uid://du40aj4q4gl3" path="res://Scripts/Paddle/Components/IA/States/PaddlePredictState.cs" id="4_3qjmf"]
+[ext_resource type="Script" uid="uid://y46126ycqkk8" path="res://Scripts/Paddle/Components/IA/States/PaddleApproachState.cs" id="5_2qrbq"]
 [ext_resource type="Script" uid="uid://bbuaykyy2gjcj" path="res://Scripts/Paddle/Components/IA/PaddleStateController.cs" id="5_diu6v"]
+[ext_resource type="Script" uid="uid://e86ugyeoh6ah" path="res://Scripts/Paddle/Components/IA/States/PaddleReactState.cs" id="6_70gy4"]
+[ext_resource type="Script" uid="uid://ec7yt1iv3w3r" path="res://Scripts/Paddle/Components/IA/States/PaddleWaitState.cs" id="7_70gy4"]
 
 [node name="PaddleIA" unique_id=1295269333 node_paths=PackedStringArray("controller") instance=ExtResource("1_prvgx")]
 script = ExtResource("2_nsw54")
 controller = NodePath("PaddleStateController")
-speed = 100.0
 
 [node name="StateMachine" type="Node" parent="." index="2" unique_id=460496529 node_paths=PackedStringArray("currentState")]
 script = ExtResource("2_3qjmf")
@@ -19,10 +20,16 @@ currentState = NodePath("PaddleIdle")
 [node name="PaddleIdle" type="Node" parent="StateMachine" index="0" unique_id=1092747462]
 script = ExtResource("3_3qjmf")
 
-[node name="PredictState" type="Node" parent="StateMachine" index="1" unique_id=747938848]
-script = ExtResource("4_3qjmf")
+[node name="ApproachState" type="Node" parent="StateMachine" index="1" unique_id=195157630]
+script = ExtResource("5_2qrbq")
 
-[node name="PaddleStateController" type="Node" parent="." index="3" unique_id=935350370 node_paths=PackedStringArray("gameStart", "stateMachine")]
+[node name="ReactState" type="Node" parent="StateMachine" index="2" unique_id=1431135963]
+script = ExtResource("6_70gy4")
+
+[node name="WaitState" type="Node" parent="StateMachine" index="3" unique_id=1727655907]
+script = ExtResource("7_70gy4")
+
+[node name="PaddleStateController" type="Node" parent="." index="3" unique_id=935350370 node_paths=PackedStringArray("stateMachine")]
 script = ExtResource("5_diu6v")
-gameStart = NodePath("../StateMachine/PredictState")
 stateMachine = NodePath("../StateMachine")
+Difficulty = 2

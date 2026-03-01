@@ -8,9 +8,9 @@ public partial class BallController : Node
   [Export] private Node2D spawnPosition;
   [Export] private PackedScene ballScene;
 
-  private Ball currentBall;
+  private BallBase currentBall;
 
-  public Ball CurrentBall => currentBall;
+  public BallBase CurrentBall => currentBall;
 
   public override void _Ready()
   {
@@ -23,12 +23,11 @@ public partial class BallController : Node
   {
     if (GameManager.Instance.CurrentState == GameState.Start)
     {
-      GD.Print("Testando!");
       SpawnBall();
     }
   }
 
-  private void SpawnBall()
+  private void CreateBall()
   {
     if (currentBall != null)
     {
@@ -36,12 +35,18 @@ public partial class BallController : Node
       currentBall = null;
     }
 
-    Ball ball = ballScene.Instantiate<Ball>();
+    BallBase ball = ballScene.Instantiate<BallBase>();
 
     AddChild(ball);
 
     ball.GlobalPosition = spawnPosition.GlobalPosition;
 
     currentBall = ball;
+  }
+
+  public async void SpawnBall()
+  {
+    await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
+    CreateBall();
   }
 }

@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://cayacju2eb3pc"]
 
-[ext_resource type="PackedScene" uid="uid://db27khuarbhe8" path="res://Scenes/Ball/ball.tscn" id="1_7flqa"]
 [ext_resource type="PackedScene" uid="uid://bqsee0uc3uwxm" path="res://Scenes/Paddle/Player/player.tscn" id="3_0u5fo"]
+[ext_resource type="PackedScene" uid="uid://bf83xotnamf56" path="res://Scenes/Ball/Types/speed_ball.tscn" id="3_gavhv"]
 [ext_resource type="Script" uid="uid://5df4o1jdoeaa" path="res://Scripts/System/GameManager.cs" id="3_i38ue"]
 [ext_resource type="PackedScene" uid="uid://cu8p4x8jfwfpg" path="res://Scenes/Paddle/IA/paddle_ia.tscn" id="4_0u5fo"]
 [ext_resource type="Script" uid="uid://bjaxvj71bh65l" path="res://Scripts/System/BallController.cs" id="4_gavhv"]
+[ext_resource type="Script" uid="uid://coek0yfpirqlc" path="res://Scripts/System/ScoreControll.cs" id="4_lhge8"]
+[ext_resource type="PackedScene" uid="uid://dt1dhbh467xc6" path="res://Scenes/Gol/gol.tscn" id="6_f4fw2"]
 
 [node name="TesteScene" type="Node2D" unique_id=998402233]
 
@@ -13,14 +15,18 @@
 [node name="GameManager" type="Node" parent="Systems" unique_id=1688991970]
 script = ExtResource("3_i38ue")
 
-[node name="Timer" type="Timer" parent="Systems/GameManager" unique_id=1219383525]
+[node name="Timer" type="Timer" parent="Systems/GameManager" unique_id=591421565]
+wait_time = 0.25
 one_shot = true
 autostart = true
 
 [node name="BallController" type="Node" parent="Systems" unique_id=1119266997 node_paths=PackedStringArray("spawnPosition")]
 script = ExtResource("4_gavhv")
 spawnPosition = NodePath("../../BallSpawn")
-ballScene = ExtResource("1_7flqa")
+ballScene = ExtResource("3_gavhv")
+
+[node name="ScoreControll" type="Node" parent="Systems" unique_id=120705903]
+script = ExtResource("4_lhge8")
 
 [node name="Player" parent="." unique_id=1295269333 instance=ExtResource("3_0u5fo")]
 position = Vector2(320, 330)
@@ -31,3 +37,13 @@ position = Vector2(320, 30)
 
 [node name="BallSpawn" type="Marker2D" parent="." unique_id=109555139]
 position = Vector2(320, 160)
+
+[node name="Gols" type="Node" parent="." unique_id=1028355763]
+
+[node name="PlayerGol" parent="Gols" unique_id=272732498 node_paths=PackedStringArray("adversaryPaddle") instance=ExtResource("6_f4fw2")]
+position = Vector2(0, 369)
+adversaryPaddle = NodePath("../../PaddleIA")
+
+[node name="EnemyGol" parent="Gols" unique_id=665339348 node_paths=PackedStringArray("adversaryPaddle") instance=ExtResource("6_f4fw2")]
+position = Vector2(0, -10)
+adversaryPaddle = NodePath("../../Player")

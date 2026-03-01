@@ -44,4 +44,11 @@ public partial class GameManager : Node
 
     EmitSignal(SignalName.OnGameStateChanged);
   }
+
+  public void Scored(Paddle scoredPaddle)
+  {
+    GD.Print(scoredPaddle.Name);
+
+    SwitchState(GameState.PlayerScore);
+  }
 }

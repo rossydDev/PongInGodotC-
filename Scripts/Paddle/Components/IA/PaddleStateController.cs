@@ -2,7 +2,6 @@ using Godot;
 
 public partial class PaddleStateController : Node
 {
-  [Export] private State gameStart;
   [Export] private StateMachine stateMachine;
 
   [ExportGroup("AI Difficulty")]
@@ -11,6 +10,8 @@ public partial class PaddleStateController : Node
   [Export] public AIDifficultySettings MediumSettings = new() { ErrorMargin = 60f, ReactionDelay = 0.3f, MaxBounces = 2 };
   [Export] public AIDifficultySettings HardSettings = new() { ErrorMargin = 20f, ReactionDelay = 0.1f, MaxBounces = 4 };
   [Export] public AIDifficultySettings ImpossibleSettings = new() { ErrorMargin = 0f, ReactionDelay = 0f, MaxBounces = 99 };
+
+  public float CurrentTarget { get; private set; }
 
   public AIDifficultySettings CurrentSettings => Difficulty switch
   {
@@ -21,6 +22,8 @@ public partial class PaddleStateController : Node
     _ => MediumSettings
   };
 
+  public void SetTarget(float x) => CurrentTarget = x;
+
   public override void _Ready()
   {
     GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
@@ -29,13 +32,17 @@ public partial class PaddleStateController : Node
   private void OnGameStateChanged()
   {
     GameState state = GameManager.Instance.CurrentState;
+
     switch (state)
     {
       case GameState.Freeze:
         stateMachine.SwitchState<PaddleIdleState>();
         break;
       case GameState.Start:
-        stateMachine.SwitchState(gameStart);
+        stateMachine.SwitchState<PaddleReactState>();
+        break;
+      case GameState.PlayerScore:
+        stateMachine.SwitchState<PaddleIdleState>();
         break;
     }
   }

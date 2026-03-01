@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://dt1dhbh467xc6"]
+
+[ext_resource type="Script" uid="uid://dt1ic6hv2mpxs" path="res://Scenes/Gol/Gol.cs" id="1_hykyb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7gjl7"]
+size = Vector2(651, 20)
+
+[node name="Gol" type="Node2D" unique_id=272732498]
+script = ExtResource("1_hykyb")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=938784877]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2061772595]
+position = Vector2(315.5, 0)
+shape = SubResource("RectangleShape2D_7gjl7")

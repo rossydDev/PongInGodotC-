@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://p47yuv4plb8s"]
+
+[ext_resource type="Script" uid="uid://bhctbanx6brul" path="res://Scripts/Ball/BallBase.cs" id="1_m5cfq"]
+[ext_resource type="Texture2D" uid="uid://m1ndmiebo242" path="res://Assets/breakout_pixel_art/ball_default.png" id="2_ltmnd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ltmnd"]
+radius = 6.0
+
+[sub_resource type="Gradient" id="Gradient_ltmnd"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2fklb"]
+gradient = SubResource("Gradient_ltmnd")
+
+[sub_resource type="Curve" id="Curve_arbml"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.98648655, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_a1smj"]
+curve = SubResource("Curve_arbml")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_8nfq3"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 5.0
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.79999995
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_a1smj")
+color_ramp = SubResource("GradientTexture1D_2fklb")
+
+[node name="BallBase" type="Node2D" unique_id=1911999466 node_paths=PackedStringArray("area2D", "trailParticles", "sprite2D")]
+script = ExtResource("1_m5cfq")
+ballSpeed = 100.0
+area2D = NodePath("Area2D")
+trailParticles = NodePath("GPUParticles2D")
+sprite2D = NodePath("Sprite")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1627767519]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=496600249]
+shape = SubResource("CircleShape2D_ltmnd")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1162520492]
+texture = ExtResource("2_ltmnd")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=2143544669]
+amount = 32
+lifetime = 0.4
+fixed_fps = 0
+process_material = SubResource("ParticleProcessMaterial_8nfq3")

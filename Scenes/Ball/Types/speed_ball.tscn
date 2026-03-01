@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bf83xotnamf56"]
+
+[ext_resource type="PackedScene" uid="uid://p47yuv4plb8s" path="res://Scenes/Ball/ball_base.tscn" id="1_lnidj"]
+[ext_resource type="Script" uid="uid://dytuyi1e0evns" path="res://Scripts/Ball/Types/SpeedBall.cs" id="2_ia1ly"]
+
+[node name="SpeedBall" unique_id=1911999466 instance=ExtResource("1_lnidj")]
+script = ExtResource("2_ia1ly")
+speedMultiplierOnBounce = 1.1
