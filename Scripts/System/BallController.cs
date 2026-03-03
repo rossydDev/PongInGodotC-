@@ -44,9 +44,8 @@ public partial class BallController : Node
     currentBall = ball;
   }
 
-  public async void SpawnBall()
+  public void SpawnBall()
   {
-    await ToSignal(GetTree().CreateTimer(0.5f), SceneTreeTimer.SignalName.Timeout);
     CreateBall();
   }
 }

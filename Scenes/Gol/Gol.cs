@@ -18,4 +18,9 @@ public partial class Gol : Node2D
 
     GameManager.Instance.Scored(adversaryPaddle);
   }
+
+  public void SetAdversaryPaddle(Paddle paddle)
+  {
+    adversaryPaddle = paddle;
+  }
 }

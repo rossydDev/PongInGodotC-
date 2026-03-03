@@ -8,7 +8,7 @@ public partial class PaddleIdleState : PaddleState
     paddle.MoveTowards(center, delta);
 
     //Bola voltou para mim? Começar a reagir
-    BallBase ball = BallController.Instance.CurrentBall;
+    BallBase ball = BallController.Instance?.CurrentBall;
 
     if (ball == null) return;
 

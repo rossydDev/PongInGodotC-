@@ -7,9 +7,8 @@ public partial class GameManager : Node
 
   public static GameManager Instance { get; private set; }
 
-  [Export] private GameState currentState = GameState.Freeze;
+  private GameState currentState = GameState.Freeze;
   private float screenWidth;
-  private Timer startTimer;
 
   public float ScreenWidth => screenWidth;
   public GameState CurrentState => currentState;
@@ -20,9 +19,6 @@ public partial class GameManager : Node
     screenWidth = GetTree().Root.GetVisibleRect().Size.X;
 
     EmitSignal(SignalName.OnGameStateChanged);
-
-    startTimer = GetNode<Timer>("Timer");
-    startTimer.Timeout += () => SwitchState(GameState.Start);
   }
 
   public bool IsOutOfBounds(Vector2 position, float halfWidth = 0)
