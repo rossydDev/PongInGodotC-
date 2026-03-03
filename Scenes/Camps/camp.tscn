@@ -4,19 +4,71 @@
 [ext_resource type="PackedScene" uid="uid://cu8p4x8jfwfpg" path="res://Scenes/Paddle/IA/paddle_ia.tscn" id="2_0cley"]
 [ext_resource type="Script" uid="uid://bjaxvj71bh65l" path="res://Scripts/System/BallController.cs" id="3_2wjir"]
 [ext_resource type="PackedScene" uid="uid://dt1dhbh467xc6" path="res://Scenes/Gol/gol.tscn" id="3_hlh3b"]
+[ext_resource type="Script" uid="uid://coek0yfpirqlc" path="res://Scripts/System/ScoreControll.cs" id="4_506ed"]
 [ext_resource type="PackedScene" uid="uid://bf83xotnamf56" path="res://Scenes/Ball/Types/speed_ball.tscn" id="4_hlh3b"]
-[ext_resource type="FontFile" uid="uid://bfvtl2ykqbbkb" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="6_f8rlm"]
+[ext_resource type="LabelSettings" uid="uid://bj8m5e0aocr1u" path="res://Resources/base_font.tres" id="6_f8rlm"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_506ed"]
-font = ExtResource("6_f8rlm")
-font_size = 64
+[sub_resource type="Animation" id="Animation_506ed"]
+resource_name = "Gol"
+length = 1.25
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CountLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ScoreLabel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ScoreLabel:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.75),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.25, 0.25), Vector2(1, 1)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"ScoredAnimationOver"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_fyai8"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Teste:text")
+tracks/0/path = NodePath("CountLabel:text")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -28,7 +80,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Teste:visible")
+tracks/1/path = NodePath("CountLabel:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -37,15 +89,39 @@ tracks/1/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ScoreLabel:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ScoreLabel:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.25, 0.25)]
+}
 
 [sub_resource type="Animation" id="Animation_orqcn"]
-resource_name = "StartMathc"
+resource_name = "StartCountdown"
 length = 3.5
 step = 1.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Teste:text")
+tracks/0/path = NodePath("CountLabel:text")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -71,7 +147,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Teste:visible")
+tracks/2/path = NodePath("CountLabel:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -83,17 +159,20 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jxa7v"]
 _data = {
+&"Gol": SubResource("Animation_506ed"),
 &"RESET": SubResource("Animation_fyai8"),
-&"StartMathc": SubResource("Animation_orqcn")
+&"StartCountdown": SubResource("Animation_orqcn")
 }
 
-[node name="Camp" type="Node2D" unique_id=1353902688 node_paths=PackedStringArray("playerSpawnPosition", "enemySpawnPosition", "enemyGol", "playerGol")]
+[node name="Camp" type="Node2D" unique_id=1353902688 node_paths=PackedStringArray("playerSpawnPosition", "enemySpawnPosition", "enemyGol", "playerGol", "scoreControll", "animationPlayer")]
 script = ExtResource("1_i6bm5")
 paddleEnemyScene = ExtResource("2_0cley")
 playerSpawnPosition = NodePath("Paddles/PlayerSpawn")
 enemySpawnPosition = NodePath("Paddles/EnemySpawn")
 enemyGol = NodePath("Gols/EnemyGol")
 playerGol = NodePath("Gols/PlayerGol")
+scoreControll = NodePath("System/ScoreControll")
+animationPlayer = NodePath("HUD/AnimationPlayer")
 
 [node name="Paddles" type="Node2D" parent="." unique_id=112760045]
 
@@ -113,6 +192,17 @@ position = Vector2(11, -9)
 
 [node name="System" type="Node" parent="." unique_id=672425665]
 
+[node name="ScoreControll" type="Node" parent="System" unique_id=1673202303]
+script = ExtResource("4_506ed")
+
+[node name="BallController" type="Node" parent="System" unique_id=916069657 node_paths=PackedStringArray("spawnPosition")]
+script = ExtResource("3_2wjir")
+spawnPosition = NodePath("BallSpawn")
+ballScene = ExtResource("4_hlh3b")
+
+[node name="BallSpawn" type="Marker2D" parent="System/BallController" unique_id=1852840642]
+position = Vector2(320, 160)
+
 [node name="BackGround" type="CanvasLayer" parent="." unique_id=1795937422]
 layer = -2
 
@@ -121,17 +211,9 @@ offset_right = 644.0
 offset_bottom = 363.0
 color = Color(0.0885599, 0.0885599, 0.0885599, 1)
 
-[node name="BallController" type="Node" parent="." unique_id=916069657 node_paths=PackedStringArray("spawnPosition")]
-script = ExtResource("3_2wjir")
-spawnPosition = NodePath("BallSpawn")
-ballScene = ExtResource("4_hlh3b")
-
-[node name="BallSpawn" type="Marker2D" parent="BallController" unique_id=1852840642]
-position = Vector2(320, 160)
-
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1002247721]
 
-[node name="Teste" type="Label" parent="HUD" unique_id=50726961]
+[node name="CountLabel" type="Label" parent="HUD" unique_id=50726961]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -144,11 +226,29 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "3"
-label_settings = SubResource("LabelSettings_506ed")
+label_settings = ExtResource("6_f8rlm")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="HUD" unique_id=462257324]
 libraries/ = SubResource("AnimationLibrary_jxa7v")
-autoplay = &"StartMathc"
+autoplay = &"StartCountdown"
+
+[node name="ScoreLabel" type="Label" parent="HUD" unique_id=1589572232]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -32.0
+offset_right = 160.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.25, 0.25)
+pivot_offset = Vector2(160, 32)
+text = "Gol!!"
+label_settings = ExtResource("6_f8rlm")

@@ -17,6 +17,10 @@ public partial class Camp : Node2D
   [Export] Gol enemyGol;
   [Export] Gol playerGol;
 
+  [ExportGroup("Systems")]
+  [Export] ScoreControll scoreControll;
+  [Export] AnimationPlayer animationPlayer;
+
 
   private Paddle paddleEnemy;
   private Paddle playerPaddle;
@@ -41,8 +45,15 @@ public partial class Camp : Node2D
     playerPaddle.GlobalPosition = playerSpawnPosition.GlobalPosition;
     enemyGol.SetAdversaryPaddle(playerPaddle);
 
-    GD.Print(playerPaddle.GlobalPosition);
+    scoreControll.Initializer();
+    scoreControll.ScoreUpdate += OnScoreControllUpdate;
   }
+
+  private void OnScoreControllUpdate(int playerScore, int enemyScore)
+  {
+    animationPlayer.Play("Gol");
+  }
+
 
   private void CreatePaddleEnemy()
   {
@@ -60,6 +71,11 @@ public partial class Camp : Node2D
   public void EmitCampReady()
   {
     EmitSignal(SignalName.OnCampReady);
+  }
+
+  public void ScoredAnimationOver()
+  {
+    GameManager.Instance.SwitchState(GameState.Scored);
   }
 
 }

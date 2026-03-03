@@ -21,9 +21,11 @@ public partial class BallController : Node
 
   private void OnGameStateChanged()
   {
-    if (GameManager.Instance.CurrentState == GameState.Start)
+    GameState currentState = GameManager.Instance.CurrentState;
+
+    if (currentState == GameState.Start || currentState == GameState.Scored)
     {
-      SpawnBall();
+      CreateBall();
     }
   }
 
@@ -42,10 +44,5 @@ public partial class BallController : Node
     ball.GlobalPosition = spawnPosition.GlobalPosition;
 
     currentBall = ball;
-  }
-
-  public void SpawnBall()
-  {
-    CreateBall();
   }
 }

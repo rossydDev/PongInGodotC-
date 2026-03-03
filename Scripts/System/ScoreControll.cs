@@ -3,28 +3,35 @@ using System;
 
 public partial class ScoreControll : Node
 {
-  public static ScoreControll Instance { get; private set; }
+  [Signal]
+  public delegate void ScoreUpdateEventHandler(int playerScore, int enemyScore);
 
   private Timer timer;
 
-  public override void _Ready()
+  public int playerScore;
+  public int enemyScore;
+
+  public void Initializer()
   {
-    Instance = this;
-
-
     GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
+
+    playerScore = 0;
+    enemyScore = 0;
   }
 
   private void OnGameStateChanged()
   {
-    if (GameManager.Instance.CurrentState == GameState.PlayerScore ||
-       GameManager.Instance.CurrentState == GameState.EnemyScore
-    )
+    if (GameManager.Instance.CurrentState == GameState.PlayerScore)
     {
-      GD.Print("Foi pontuado!");
-
-      BallController.Instance.SpawnBall();
+      playerScore++;
+      GD.Print($"{playerScore} : {enemyScore}");
+      EmitSignal(SignalName.ScoreUpdate, playerScore, enemyScore);
+    }
+    else if (GameManager.Instance.CurrentState == GameState.EnemyScore)
+    {
+      enemyScore++;
+      GD.Print($"{playerScore} : {enemyScore}");
+      EmitSignal(SignalName.ScoreUpdate, playerScore, enemyScore);
     }
   }
-
 }

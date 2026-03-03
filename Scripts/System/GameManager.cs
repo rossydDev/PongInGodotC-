@@ -43,8 +43,13 @@ public partial class GameManager : Node
 
   public void Scored(Paddle scoredPaddle)
   {
-    GD.Print(scoredPaddle.Name);
-
-    SwitchState(GameState.PlayerScore);
+    if (scoredPaddle is PaddleIA)
+    {
+      SwitchState(GameState.EnemyScore);
+    }
+    else
+    {
+      SwitchState(GameState.PlayerScore);
+    }
   }
 }
