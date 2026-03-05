@@ -19,7 +19,8 @@ public partial class Camp : Node2D
 
   [ExportGroup("Systems")]
   [Export] ScoreControll scoreControll;
-  [Export] AnimationPlayer animationPlayer;
+  [ExportGroup("HUD")]
+  [Export] ScoreHud scoreHud;
 
 
   private Paddle paddleEnemy;
@@ -28,8 +29,18 @@ public partial class Camp : Node2D
   public override void _Ready()
   {
     EmitSignal(SignalName.OnCampReady);
+
+    scoreHud.OnScoreAnimationFinished += OnScoreHudAnimationFinished;
   }
 
+  private async void OnScoreHudAnimationFinished()
+  {
+    await ToSignal(GetTree().CreateTimer(1.7f), SceneTreeTimer.SignalName.Timeout);
+
+    scoreHud.HideScore();
+
+    GameManager.Instance.SwitchState(GameState.Scored);
+  }
 
   public void Initializer(PackedScene playerScene)
   {
@@ -51,7 +62,7 @@ public partial class Camp : Node2D
 
   private void OnScoreControllUpdate(int playerScore, int enemyScore)
   {
-    animationPlayer.Play("Gol");
+    scoreHud.SetScore(playerScore, enemyScore);
   }
 
 
@@ -72,10 +83,4 @@ public partial class Camp : Node2D
   {
     EmitSignal(SignalName.OnCampReady);
   }
-
-  public void ScoredAnimationOver()
-  {
-    GameManager.Instance.SwitchState(GameState.Scored);
-  }
-
 }

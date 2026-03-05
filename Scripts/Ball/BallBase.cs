@@ -7,6 +7,10 @@ public partial class BallBase : Actor
   [Export] protected float ballSpeed = 100f;
   [Export] protected Area2D area2D;
 
+  // Preloads das cenas de efeito
+  static readonly PackedScene ExplosionScene = GD.Load<PackedScene>("res://Scenes/Effects/ball_explosion.tscn");
+  static readonly PackedScene WallPulseScene = GD.Load<PackedScene>("res://Scenes/Effects/wall_pulse.tscn");
+
   protected Vector2 direction = Vector2.Zero;
   public Vector2 Velocity => direction * ballSpeed;
 
@@ -37,6 +41,7 @@ public partial class BallBase : Actor
   protected virtual void OnBounceWall()
   {
     direction.X *= -1;
+    SpawnWallPulse();
   }
 
   protected virtual void OnBouncePaddle()
@@ -66,6 +71,25 @@ public partial class BallBase : Actor
     float angle = diagonalAngles[(int)GD.RandRange(0, 3)];
     direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
   }
+
+  // Chamado externamente pelo GameManager ao pontuar
+  public void SpawnExplosion()
+  {
+    var explosion = ExplosionScene.Instantiate<BallExplosion>();
+    GetTree().Root.AddChild(explosion);
+
+    // Pega a cor do sprite — se usar modulate, pega ela
+    Color ballColor = Colors.White;
+    explosion.Explode(GlobalPosition, ballColor);
+  }
+
+  private void SpawnWallPulse()
+  {
+    var pulse = WallPulseScene.Instantiate<WallPulse>();
+    GetTree().Root.AddChild(pulse);
+    pulse.Pulse(GlobalPosition);
+  }
+
 
 
 }

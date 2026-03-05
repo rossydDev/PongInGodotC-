@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://c7u4ppcbttk2k"]
+
+[ext_resource type="Script" uid="uid://du0plctxnwu3d" path="res://Scripts/Effects/BallExplosion.cs" id="1_s5rff"]
+
+[node name="BallExplosion" type="Node2D" unique_id=1200558660 node_paths=PackedStringArray("particles")]
+script = ExtResource("1_s5rff")
+particles = NodePath("GPUParticles2D")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=193153209]

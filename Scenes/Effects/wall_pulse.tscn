@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c36act3ivcqqw"]
+
+[ext_resource type="Script" uid="uid://bxc0bjxywm8pa" path="res://Scripts/Effects/WallPulse.cs" id="1_4d8j8"]
+
+[node name="WallPulse" type="Node2D" unique_id=1562328517]
+script = ExtResource("1_4d8j8")

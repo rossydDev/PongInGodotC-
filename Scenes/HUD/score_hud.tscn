@@ -1,11 +1,22 @@
 [gd_scene format=3 uid="uid://blra55e6trgjw"]
 
 [ext_resource type="LabelSettings" uid="uid://bj8m5e0aocr1u" path="res://Resources/base_font.tres" id="1_dabru"]
+[ext_resource type="Script" uid="uid://dkudd3ne1c7d3" path="res://Scripts/HUD/ScoreHud.cs" id="1_nr7yk"]
 
-[node name="ScoreHUD" type="CanvasLayer" unique_id=2059326417]
+[node name="ScoreHUD" type="CanvasLayer" unique_id=2059326417 node_paths=PackedStringArray("playerScoreLabel", "enemyScoreLabel", "flashRect")]
+script = ExtResource("1_nr7yk")
+playerScoreLabel = NodePath("PlayerScore")
+enemyScoreLabel = NodePath("EnemyScore")
+flashRect = NodePath("ColorRect")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=83362572]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="PlayerScore" type="Label" parent="." unique_id=1799524847]
-modulate = Color(0, 0, 1, 1)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -22,7 +33,6 @@ text = "1"
 label_settings = ExtResource("1_dabru")
 
 [node name="EnemyScore" type="Label" parent="." unique_id=1645907823]
-modulate = Color(1, 0, 0, 1)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -37,5 +47,3 @@ grow_vertical = 2
 pivot_offset = Vector2(32, 32)
 text = "1"
 label_settings = ExtResource("1_dabru")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1798468490]

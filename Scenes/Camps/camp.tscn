@@ -7,61 +7,7 @@
 [ext_resource type="Script" uid="uid://coek0yfpirqlc" path="res://Scripts/System/ScoreControll.cs" id="4_506ed"]
 [ext_resource type="PackedScene" uid="uid://bf83xotnamf56" path="res://Scenes/Ball/Types/speed_ball.tscn" id="4_hlh3b"]
 [ext_resource type="LabelSettings" uid="uid://bj8m5e0aocr1u" path="res://Resources/base_font.tres" id="6_f8rlm"]
-
-[sub_resource type="Animation" id="Animation_506ed"]
-resource_name = "Gol"
-length = 1.25
-step = 1.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CountLabel:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ScoreLabel:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ScoreLabel:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.75),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0.25, 0.25), Vector2(1, 1)]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("..")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(1),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"ScoredAnimationOver"
-}]
-}
+[ext_resource type="PackedScene" uid="uid://blra55e6trgjw" path="res://Scenes/HUD/score_hud.tscn" id="8_fyai8"]
 
 [sub_resource type="Animation" id="Animation_fyai8"]
 length = 0.001
@@ -88,30 +34,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("ScoreLabel:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("ScoreLabel:scale")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0.25, 0.25)]
 }
 
 [sub_resource type="Animation" id="Animation_orqcn"]
@@ -159,12 +81,11 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jxa7v"]
 _data = {
-&"Gol": SubResource("Animation_506ed"),
 &"RESET": SubResource("Animation_fyai8"),
 &"StartCountdown": SubResource("Animation_orqcn")
 }
 
-[node name="Camp" type="Node2D" unique_id=1353902688 node_paths=PackedStringArray("playerSpawnPosition", "enemySpawnPosition", "enemyGol", "playerGol", "scoreControll", "animationPlayer")]
+[node name="Camp" type="Node2D" unique_id=1353902688 node_paths=PackedStringArray("playerSpawnPosition", "enemySpawnPosition", "enemyGol", "playerGol", "scoreControll", "scoreHud")]
 script = ExtResource("1_i6bm5")
 paddleEnemyScene = ExtResource("2_0cley")
 playerSpawnPosition = NodePath("Paddles/PlayerSpawn")
@@ -172,7 +93,7 @@ enemySpawnPosition = NodePath("Paddles/EnemySpawn")
 enemyGol = NodePath("Gols/EnemyGol")
 playerGol = NodePath("Gols/PlayerGol")
 scoreControll = NodePath("System/ScoreControll")
-animationPlayer = NodePath("HUD/AnimationPlayer")
+scoreHud = NodePath("HUD/ScoreHUD")
 
 [node name="Paddles" type="Node2D" parent="." unique_id=112760045]
 
@@ -235,20 +156,4 @@ autowrap_mode = 2
 libraries/ = SubResource("AnimationLibrary_jxa7v")
 autoplay = &"StartCountdown"
 
-[node name="ScoreLabel" type="Label" parent="HUD" unique_id=1589572232]
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -160.0
-offset_top = -32.0
-offset_right = 160.0
-offset_bottom = 32.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.25, 0.25)
-pivot_offset = Vector2(160, 32)
-text = "Gol!!"
-label_settings = ExtResource("6_f8rlm")
+[node name="ScoreHUD" parent="HUD" unique_id=2059326417 instance=ExtResource("8_fyai8")]

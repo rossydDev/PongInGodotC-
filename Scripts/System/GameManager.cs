@@ -43,6 +43,8 @@ public partial class GameManager : Node
 
   public void Scored(Paddle scoredPaddle)
   {
+    BallController.Instance.CurrentBall.SpawnExplosion();
+
     if (scoredPaddle is PaddleIA)
     {
       SwitchState(GameState.EnemyScore);
