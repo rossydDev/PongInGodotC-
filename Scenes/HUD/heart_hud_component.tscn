@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cix7v683rw3ra"]
+
+[ext_resource type="Script" uid="uid://dmesbtfbtbjyk" path="res://Scripts/HUD/HeartHudComponent.cs" id="1_m46rr"]
+[ext_resource type="Texture2D" uid="uid://b0dd1hy61idce" path="res://Assets/Heart/Heart.png" id="2_i4j3p"]
+[ext_resource type="Texture2D" uid="uid://c0qfd46pbfpiv" path="res://Assets/Heart/HalfHeart.png" id="3_05nlg"]
+[ext_resource type="Texture2D" uid="uid://dw8vuy3lp8rkn" path="res://Assets/Heart/EmptyHeart.png" id="4_afhdp"]
+
+[node name="HeartHudComponent" type="HBoxContainer" unique_id=119576945]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_m46rr")
+heartFull = ExtResource("2_i4j3p")
+heartHalf = ExtResource("3_05nlg")
+heartEmpty = ExtResource("4_afhdp")

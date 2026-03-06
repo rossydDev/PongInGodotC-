@@ -18,8 +18,11 @@ public partial class BallBase : Actor
   {
     base._Ready();
 
+    SetPhysicsProcess(false);
     area2D.AreaEntered += OnAreaEntered;
     PickRandomOriginDirection();
+
+    _ = SpawnAnimation();
   }
 
   public override void _PhysicsProcess(double delta)
@@ -36,6 +39,30 @@ public partial class BallBase : Actor
     {
       OnBounceWall();
     }
+  }
+
+  private async System.Threading.Tasks.Task SpawnAnimation()
+  {
+    // Começa invisível e pequeno
+    Scale = Vector2.Zero;
+    Modulate = new Color(1, 1, 1, 0f);
+
+    // Pequeno delay antes de aparecer
+    await ToSignal(GetTree().CreateTimer(0.3f, true), SceneTreeTimer.SignalName.Timeout);
+
+    // Aparece com overshoot elástico
+    Tween tween = CreateTween();
+    tween.SetParallel(true); // escala e alpha ao mesmo tempo
+    tween.SetEase(Tween.EaseType.Out);
+    tween.SetTrans(Tween.TransitionType.Elastic);
+
+    tween.TweenProperty(this, "scale", Vector2.One, 0.6f).From(Vector2.Zero);
+    tween.TweenProperty(this, "modulate:a", 1.0f, 0.2f).From(0f); // fade in mais rápido
+
+    await ToSignal(tween, Tween.SignalName.Finished);
+
+    // Só começa a se mover após a animação
+    SetPhysicsProcess(true);
   }
 
   protected virtual void OnBounceWall()

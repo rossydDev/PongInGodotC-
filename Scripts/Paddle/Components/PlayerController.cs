@@ -12,10 +12,35 @@ public partial class PlayerController : Node
 {
   private PlayerStatus currentStatus = PlayerStatus.Idle;
   [Export] private Paddle paddle;
+  [Export] private AbilityComponent ability;
+  [Export] private LifeComponent lifeComponent;
+
+  public AbilityComponent CurrentAbility => ability;
 
   public override void _Ready()
   {
     GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    lifeComponent.OnDeath += OnPaddleDeath;
+
+    var life = paddle.GetNodeOrNull<LifeComponent>("LifeComponent");
+    if (life != null)
+    {
+      life.OnDeath += () => currentStatus = PlayerStatus.Idle;
+      life.OnRespawn += OnGameStateChanged;
+    }
+  }
+
+  private void OnPaddleDeath()
+  {
+    ability?.ForceStop();
+  }
+
+  public override void _UnhandledInput(InputEvent @event)
+  {
+    if (@event.IsActionPressed("Ability") && currentStatus == PlayerStatus.Move)
+    {
+      ability?.TryActivate();
+    }
   }
 
   private void OnGameStateChanged()

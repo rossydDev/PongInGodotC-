@@ -21,6 +21,7 @@ public partial class Camp : Node2D
   [Export] ScoreControll scoreControll;
   [ExportGroup("HUD")]
   [Export] ScoreHud scoreHud;
+  [Export] HeartHudComponent heartHudComponent;
 
 
   private Paddle paddleEnemy;
@@ -55,6 +56,14 @@ public partial class Camp : Node2D
 
     playerPaddle.GlobalPosition = playerSpawnPosition.GlobalPosition;
     enemyGol.SetAdversaryPaddle(playerPaddle);
+
+    heartHudComponent.Initializer(playerPaddle);
+    AbilityComponent ability = playerPaddle.GetNode<PlayerController>("PlayerController").CurrentAbility;
+
+    heartHudComponent.ConnectAbility(ability);
+
+    var life = playerPaddle.GetNodeOrNull<LifeComponent>("LifeComponent");
+    life?.SetSpawnPosition(playerSpawnPosition.GlobalPosition);
 
     scoreControll.Initializer();
     scoreControll.ScoreUpdate += OnScoreControllUpdate;

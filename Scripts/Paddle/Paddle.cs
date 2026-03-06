@@ -3,13 +3,13 @@ using System;
 
 public partial class Paddle : Actor
 {
-  [Export] private float speed = 50f;
+  [Export] public float Speed = 50f;
 
   public void Move(Vector2 direction, float delta)
   {
-    Vector2 nextPosition = Position + direction * speed * delta;
+    Vector2 nextPosition = Position + direction * Speed * delta;
 
-    nextPosition.Y = GameManager.Instance.ClampY(nextPosition.Y, spriteWidth);
+    nextPosition.X = GameManager.Instance.ClampX(nextPosition.X, spriteWidth);
 
     Position = nextPosition;
   }
@@ -17,7 +17,7 @@ public partial class Paddle : Actor
   public void MoveTowards(float targetX, float delta)
   {
     float dir = Mathf.Sign(targetX - GlobalPosition.X);
-    Position += new Vector2(dir, 0) * speed * delta;
+    Position += new Vector2(dir, 0) * Speed * delta;
   }
 
   public void SetX(float x)

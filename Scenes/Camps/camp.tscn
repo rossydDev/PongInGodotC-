@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bf83xotnamf56" path="res://Scenes/Ball/Types/speed_ball.tscn" id="4_hlh3b"]
 [ext_resource type="LabelSettings" uid="uid://bj8m5e0aocr1u" path="res://Resources/base_font.tres" id="6_f8rlm"]
 [ext_resource type="PackedScene" uid="uid://blra55e6trgjw" path="res://Scenes/HUD/score_hud.tscn" id="8_fyai8"]
+[ext_resource type="PackedScene" uid="uid://cix7v683rw3ra" path="res://Scenes/HUD/heart_hud_component.tscn" id="9_orqcn"]
 
 [sub_resource type="Animation" id="Animation_fyai8"]
 length = 0.001
@@ -85,7 +86,7 @@ _data = {
 &"StartCountdown": SubResource("Animation_orqcn")
 }
 
-[node name="Camp" type="Node2D" unique_id=1353902688 node_paths=PackedStringArray("playerSpawnPosition", "enemySpawnPosition", "enemyGol", "playerGol", "scoreControll", "scoreHud")]
+[node name="Camp" type="Node2D" unique_id=1353902688 node_paths=PackedStringArray("playerSpawnPosition", "enemySpawnPosition", "enemyGol", "playerGol", "scoreControll", "scoreHud", "heartHudComponent")]
 script = ExtResource("1_i6bm5")
 paddleEnemyScene = ExtResource("2_0cley")
 playerSpawnPosition = NodePath("Paddles/PlayerSpawn")
@@ -94,6 +95,7 @@ enemyGol = NodePath("Gols/EnemyGol")
 playerGol = NodePath("Gols/PlayerGol")
 scoreControll = NodePath("System/ScoreControll")
 scoreHud = NodePath("HUD/ScoreHUD")
+heartHudComponent = NodePath("HUD/HeartHudComponent")
 
 [node name="Paddles" type="Node2D" parent="." unique_id=112760045]
 
@@ -157,3 +159,7 @@ libraries/ = SubResource("AnimationLibrary_jxa7v")
 autoplay = &"StartCountdown"
 
 [node name="ScoreHUD" parent="HUD" unique_id=2059326417 instance=ExtResource("8_fyai8")]
+
+[node name="HeartHudComponent" parent="HUD" unique_id=119576945 instance=ExtResource("9_orqcn")]
+offset_top = -21.0
+offset_bottom = 19.0

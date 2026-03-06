@@ -5,24 +5,21 @@ public partial class BallExplosion : Node2D
 {
   [Export] GpuParticles2D particles;
 
-  public void Explode(Vector2 pos, Color color)
+  public void Explode(Vector2 pos, Color color, float scale = 1f)
   {
     Position = pos;
 
-    // Configura o material das partículas via código
     var material = new ParticleProcessMaterial();
     material.EmissionShape = ParticleProcessMaterial.EmissionShapeEnum.Sphere;
-    material.EmissionSphereRadius = 4f;
-    material.Direction = new Vector3(0, 0, 0);
+    material.EmissionSphereRadius = 4f * scale;
     material.Spread = 180f;
-    material.InitialVelocityMin = 80f;
-    material.InitialVelocityMax = 220f;
+    material.InitialVelocityMin = 150f * scale;
+    material.InitialVelocityMax = 400f * scale;
     material.Gravity = new Vector3(0, 120, 0);
-    material.ScaleMin = 0.4f;
-    material.ScaleMax = 1.2f;
+    material.ScaleMin = 1.0f * scale;
+    material.ScaleMax = 2.5f * scale;
     material.Color = color;
 
-    // Fade out das partículas
     var gradient = new Gradient();
     gradient.SetColor(0, color);
     gradient.SetColor(1, new Color(color.R, color.G, color.B, 0f));
@@ -31,21 +28,13 @@ public partial class BallExplosion : Node2D
     material.ColorRamp = gradientTexture;
 
     particles.ProcessMaterial = material;
-    particles.Amount = 40;
-    particles.Lifetime = 0.8f;
+    particles.Amount = (int)(60 * scale);
+    particles.Lifetime = 1.0f;
     particles.OneShot = true;
     particles.Explosiveness = 1.0f;
     particles.Emitting = true;
 
-    material.ScaleMin = 1.0f;
-    material.ScaleMax = 2.5f;
-    material.InitialVelocityMin = 150f;
-    material.InitialVelocityMax = 400f;
-    particles.Amount = 60;
-    particles.Lifetime = 1.0f;
-
-    // Auto-destrói após as partículas sumirem
-    GetTree().CreateTimer(1.2f).Connect(
+    GetTree().CreateTimer(1.5f).Connect(
         SceneTreeTimer.SignalName.Timeout,
         Callable.From(QueueFree)
     );

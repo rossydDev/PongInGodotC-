@@ -27,9 +27,9 @@ public partial class GameManager : Node
            || position.X + halfWidth > screenWidth;
   }
 
-  public float ClampY(float y, float halfWidth)
+  public float ClampX(float x, float halfWidth)
   {
-    return Mathf.Clamp(y, halfWidth, screenWidth - halfWidth);
+    return Mathf.Clamp(x, halfWidth, screenWidth - halfWidth);
   }
 
   public void SwitchState(GameState newState)
