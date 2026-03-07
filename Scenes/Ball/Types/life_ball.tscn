@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://btfxbdkvw8622"]
+
+[ext_resource type="PackedScene" uid="uid://p47yuv4plb8s" path="res://Scenes/Ball/ball_base.tscn" id="1_3mjal"]
+[ext_resource type="Script" uid="uid://7w576nr2r1jm" path="res://Scripts/Ball/Types/LifeBall.cs" id="2_ygjgx"]
+
+[node name="LifeBall" unique_id=1911999466 instance=ExtResource("1_3mjal")]
+script = ExtResource("2_ygjgx")
+
+[node name="Sprite" parent="." index="1" unique_id=1162520492]
+modulate = Color(1, 0, 0, 1)

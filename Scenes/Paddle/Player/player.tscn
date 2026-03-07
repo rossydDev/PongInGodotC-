@@ -8,18 +8,24 @@
 [ext_resource type="Script" uid="uid://cn60batycdxi7" path="res://Scripts/Paddle/Components/Player/LifeComponent.cs" id="7_kwhoq"]
 [ext_resource type="PackedScene" uid="uid://c7u4ppcbttk2k" path="res://Scenes/Effects/ball_explosion.tscn" id="8_g2048"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kwhoq"]
+size = Vector2(46, 10)
+
 [node name="Player" unique_id=1295269333 instance=ExtResource("1_2v5g6")]
-Speed = 100.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" parent_id_path=PackedInt32Array(30411953) index="0" unique_id=241292793]
+shape = SubResource("RectangleShape2D_kwhoq")
 
 [node name="Sprite2D" parent="." index="1" unique_id=134558618]
 rotation = 1.5707964
 texture = ExtResource("2_k5ghs")
 
-[node name="PlayerController" type="Node" parent="." index="2" unique_id=932097873 node_paths=PackedStringArray("paddle", "ability", "lifeComponent")]
+[node name="PlayerController" type="Node" parent="." index="2" unique_id=932097873 node_paths=PackedStringArray("paddle", "ability", "lifeComponent", "healthComponent")]
 script = ExtResource("2_1tf82")
 paddle = NodePath("..")
 ability = NodePath("../SpeedBoost")
 lifeComponent = NodePath("../LifeComponent")
+healthComponent = NodePath("../HealthComponent")
 
 [node name="HealthComponent" type="Node2D" parent="." index="3" unique_id=830404053]
 script = ExtResource("4_k5ghs")

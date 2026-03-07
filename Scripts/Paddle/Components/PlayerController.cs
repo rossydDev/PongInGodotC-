@@ -1,3 +1,4 @@
+// PlayerController.cs
 using System;
 using System.Diagnostics;
 using Godot;
@@ -11,23 +12,37 @@ public enum PlayerStatus
 public partial class PlayerController : Node
 {
   private PlayerStatus currentStatus = PlayerStatus.Idle;
+
   [Export] private Paddle paddle;
   [Export] private AbilityComponent ability;
   [Export] private LifeComponent lifeComponent;
+  [Export] private HealthComponent healthComponent;
+  [Export] private PackedScene healEffectScene; // <- arrasta o HealEffect.tscn no Inspector
 
   public AbilityComponent CurrentAbility => ability;
+  public LifeComponent LifeComponent => lifeComponent;
+  public HealthComponent HealthComponent => healthComponent;
 
   public override void _Ready()
   {
     GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
     lifeComponent.OnDeath += OnPaddleDeath;
 
-    var life = paddle.GetNodeOrNull<LifeComponent>("LifeComponent");
-    if (life != null)
+    if (lifeComponent != null)
     {
-      life.OnDeath += () => currentStatus = PlayerStatus.Idle;
-      life.OnRespawn += OnGameStateChanged;
+      lifeComponent.OnDeath += () => currentStatus = PlayerStatus.Idle;
+      lifeComponent.OnRespawn += OnGameStateChanged;
     }
+
+    healthComponent.OnHealed += OnHealed;
+  }
+
+  private void OnHealed(float amount, float current, float max)
+  {
+    if (healEffectScene == null) return;
+    var effect = healEffectScene.Instantiate<HealEffect>();
+    GetTree().Root.AddChild(effect);
+    effect.Play(paddle);
   }
 
   private void OnPaddleDeath()
@@ -38,23 +53,15 @@ public partial class PlayerController : Node
   public override void _UnhandledInput(InputEvent @event)
   {
     if (@event.IsActionPressed("Ability") && currentStatus == PlayerStatus.Move)
-    {
       ability?.TryActivate();
-    }
   }
 
   private void OnGameStateChanged()
   {
     GameState currentGameState = GameManager.Instance.CurrentState;
-
-    if (currentGameState == GameState.Start || currentGameState == GameState.Scored)
-    {
-      currentStatus = PlayerStatus.Move;
-    }
-    else
-    {
-      currentStatus = PlayerStatus.Idle;
-    }
+    currentStatus = (currentGameState == GameState.Start || currentGameState == GameState.Scored)
+        ? PlayerStatus.Move
+        : PlayerStatus.Idle;
   }
 
   public override void _PhysicsProcess(double delta)
@@ -76,9 +83,7 @@ public partial class PlayerController : Node
   private void Move(float delta)
   {
     Vector2 direction = Vector2.Zero;
-
     direction.X = Input.GetAxis("MoveLeft", "MoveRight");
-
     paddle.Move(direction, delta);
   }
 }

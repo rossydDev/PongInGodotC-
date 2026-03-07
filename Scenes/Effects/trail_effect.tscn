@@ -1,7 +1,0 @@
-[gd_scene format=3 uid="uid://d2m2v8qbedqdk"]
-
-[ext_resource type="Texture2D" uid="uid://dd6xf4dag6uvy" path="res://Assets/Paddle/Paddle.png" id="1_f58wl"]
-
-[node name="TrailEffect" type="Sprite2D" unique_id=1056099625]
-rotation = 1.5707964
-texture = ExtResource("1_f58wl")

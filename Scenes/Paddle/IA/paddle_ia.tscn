@@ -10,9 +10,15 @@
 [ext_resource type="Script" uid="uid://e86ugyeoh6ah" path="res://Scripts/Paddle/Components/IA/States/PaddleReactState.cs" id="6_70gy4"]
 [ext_resource type="Script" uid="uid://ec7yt1iv3w3r" path="res://Scripts/Paddle/Components/IA/States/PaddleWaitState.cs" id="7_70gy4"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_858kk"]
+size = Vector2(46, 10)
+
 [node name="PaddleIA" unique_id=1295269333 node_paths=PackedStringArray("controller") instance=ExtResource("1_prvgx")]
 script = ExtResource("2_nsw54")
 controller = NodePath("PaddleStateController")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" parent_id_path=PackedInt32Array(30411953) index="0" unique_id=179768297]
+shape = SubResource("RectangleShape2D_858kk")
 
 [node name="Sprite2D" parent="." index="1" unique_id=134558618]
 rotation = 1.5707964
