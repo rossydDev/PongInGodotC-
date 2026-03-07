@@ -16,6 +16,10 @@ public partial class Gol : Node2D
   {
     if (area.GetOwner<BallBase>() == null) return;
 
+    BallBase ball = area.GetOwner<BallBase>();
+
+    if (ball.Score == false) return;
+
     GameManager.Instance.Scored(adversaryPaddle);
   }
 

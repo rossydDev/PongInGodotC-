@@ -11,6 +11,9 @@ public partial class BallBase : Actor
 
   protected Vector2 direction = Vector2.Zero;
   public Vector2 Velocity => direction * ballSpeed;
+  protected bool score = true;
+
+  public bool Score => score;
 
   public override void _Ready()
   {
@@ -108,7 +111,7 @@ public partial class BallBase : Actor
     explosion.Explode(GlobalPosition, ballColor);
   }
 
-  private void SpawnWallPulse()
+  protected void SpawnWallPulse()
   {
     var pulse = WallPulseScene.Instantiate<WallPulse>();
     GetTree().Root.AddChild(pulse);

@@ -2,32 +2,7 @@
 
 [ext_resource type="Script" uid="uid://braoqet5dbqmf" path="res://Scripts/Effects/HealEffect.cs" id="1_r6vd6"]
 
-[sub_resource type="Gradient" id="Gradient_r6vd6"]
-offsets = PackedFloat32Array(0, 0.47540984, 1)
-colors = PackedColorArray(1, 1, 1, 1, 0.2509804, 1, 0.53333336, 1, 0.2509804, 1, 0.53333336, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_xrlcm"]
-gradient = SubResource("Gradient_r6vd6")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cddl2"]
-particle_flag_disable_z = true
-direction = Vector3(0, -1, 0)
-spread = 60.0
-angular_velocity_min = 59.99998
-angular_velocity_max = 129.99998
-gravity = Vector3(0, 80, 0)
-scale_min = 3.0
-scale_max = 6.0
-color = Color(0.2509804, 1, 0.53333336, 1)
-color_ramp = SubResource("GradientTexture1D_xrlcm")
-
 [node name="HealEffect" type="Node2D" unique_id=1184631776]
 script = ExtResource("1_r6vd6")
 
 [node name="Particles" type="GPUParticles2D" parent="." unique_id=1701191803]
-emitting = false
-amount = 48
-lifetime = 0.9
-one_shot = true
-explosiveness = 0.85
-process_material = SubResource("ParticleProcessMaterial_cddl2")

@@ -6,8 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://dt1dhbh467xc6" path="res://Scenes/Gol/gol.tscn" id="3_hlh3b"]
 [ext_resource type="Script" uid="uid://coek0yfpirqlc" path="res://Scripts/System/ScoreControll.cs" id="4_506ed"]
 [ext_resource type="LabelSettings" uid="uid://bj8m5e0aocr1u" path="res://Resources/base_font.tres" id="6_f8rlm"]
+[ext_resource type="PackedScene" uid="uid://bf83xotnamf56" path="res://Scenes/Ball/Types/speed_ball.tscn" id="6_orqcn"]
 [ext_resource type="PackedScene" uid="uid://blra55e6trgjw" path="res://Scenes/HUD/score_hud.tscn" id="8_fyai8"]
 [ext_resource type="PackedScene" uid="uid://cix7v683rw3ra" path="res://Scenes/HUD/heart_hud_component.tscn" id="9_orqcn"]
+[ext_resource type="PackedScene" uid="uid://bbanr4021pb8k" path="res://Scenes/Components/spawner_component.tscn" id="10_bt2ag"]
 [ext_resource type="PackedScene" uid="uid://btfxbdkvw8622" path="res://Scenes/Ball/Types/life_ball.tscn" id="10_jxa7v"]
 
 [sub_resource type="Animation" id="Animation_fyai8"]
@@ -86,6 +88,9 @@ _data = {
 &"StartCountdown": SubResource("Animation_orqcn")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bt2ag"]
+size = Vector2(224, 122)
+
 [node name="Camp" type="Node2D" unique_id=1353902688 node_paths=PackedStringArray("playerSpawnPosition", "enemySpawnPosition", "enemyGol", "playerGol", "scoreControll", "scoreHud", "heartHudComponent")]
 script = ExtResource("1_i6bm5")
 paddleEnemyScene = ExtResource("2_0cley")
@@ -121,7 +126,7 @@ script = ExtResource("4_506ed")
 [node name="BallController" type="Node" parent="System" unique_id=916069657 node_paths=PackedStringArray("spawnPosition")]
 script = ExtResource("3_2wjir")
 spawnPosition = NodePath("BallSpawn")
-ballScene = ExtResource("10_jxa7v")
+ballScene = ExtResource("6_orqcn")
 
 [node name="BallSpawn" type="Marker2D" parent="System/BallController" unique_id=1852840642]
 position = Vector2(320, 160)
@@ -163,3 +168,14 @@ autoplay = &"StartCountdown"
 [node name="HeartHudComponent" parent="HUD" unique_id=119576945 instance=ExtResource("9_orqcn")]
 offset_top = -21.0
 offset_bottom = 19.0
+
+[node name="SpawnerComponent" parent="." unique_id=2073414605 node_paths=PackedStringArray("spawnArea") instance=ExtResource("10_bt2ag")]
+oneShot = true
+minTimeout = 4.0
+maxTimeout = 6.0
+scenes = Array[PackedScene]([ExtResource("10_jxa7v")])
+spawnArea = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnerComponent" unique_id=540895150]
+position = Vector2(306, 168)
+shape = SubResource("RectangleShape2D_bt2ag")
