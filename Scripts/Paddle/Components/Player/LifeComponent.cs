@@ -10,15 +10,14 @@ public partial class LifeComponent : Node
   [Signal] public delegate void OnDeathEventHandler();
   [Signal] public delegate void OnRespawnEventHandler();
 
-  private Paddle paddle;
-  private HealthComponent health;
+  [Export] private Paddle paddle;
+  [Export] private HealthComponent health;
+
   private Vector2 spawnPosition;
   private bool isDead = false;
 
   public override void _Ready()
   {
-    paddle = GetParent<Paddle>();
-    health = paddle.GetNode<HealthComponent>("HealthComponent");
     health.OnHealthChanged += OnHealthChanged;
 
     // Guarda a posição inicial como ponto de respawn

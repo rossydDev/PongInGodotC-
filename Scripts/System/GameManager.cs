@@ -8,28 +8,15 @@ public partial class GameManager : Node
   public static GameManager Instance { get; private set; }
 
   private GameState currentState = GameState.Freeze;
-  private float screenWidth;
 
-  public float ScreenWidth => screenWidth;
   public GameState CurrentState => currentState;
 
   public override void _Ready()
   {
     Instance = this;
-    screenWidth = GetTree().Root.GetVisibleRect().Size.X;
+    WorldBounds.Initialize(GetTree().Root.GetVisibleRect().Size.X);
 
     EmitSignal(SignalName.OnGameStateChanged);
-  }
-
-  public bool IsOutOfBounds(Vector2 position, float halfWidth = 0)
-  {
-    return position.X - halfWidth < 0
-           || position.X + halfWidth > screenWidth;
-  }
-
-  public float ClampX(float x, float halfWidth)
-  {
-    return Mathf.Clamp(x, halfWidth, screenWidth - halfWidth);
   }
 
   public void SwitchState(GameState newState)

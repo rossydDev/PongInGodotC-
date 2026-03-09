@@ -30,9 +30,12 @@ healthComponent = NodePath("../HealthComponent")
 [node name="HealthComponent" type="Node2D" parent="." index="3" unique_id=830404053]
 script = ExtResource("4_k5ghs")
 
-[node name="SpeedBoost" type="Node" parent="." index="4" unique_id=1731839862]
+[node name="SpeedBoost" type="Node" parent="." index="4" unique_id=1731839862 node_paths=PackedStringArray("paddleSprite")]
 script = ExtResource("5_5p5ca")
+paddleSprite = NodePath("../Sprite2D")
 
-[node name="LifeComponent" type="Node" parent="." index="5" unique_id=872700675]
+[node name="LifeComponent" type="Node" parent="." index="5" unique_id=872700675 node_paths=PackedStringArray("paddle", "health")]
 script = ExtResource("7_kwhoq")
 deathExplosionScene = ExtResource("8_g2048")
+paddle = NodePath("..")
+health = NodePath("../HealthComponent")

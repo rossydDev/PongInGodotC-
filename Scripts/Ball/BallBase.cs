@@ -36,7 +36,7 @@ public partial class BallBase : Actor
     Rotation = direction.Angle();
     Position += direction * (ballSpeed * delta);
 
-    if (GameManager.Instance.IsOutOfBounds(Position, spriteWidth))
+    if (WorldBounds.IsOutOfBounds(Position.X, spriteWidth))
     {
       OnBounceWall();
     }
@@ -117,7 +117,4 @@ public partial class BallBase : Actor
     GetTree().Root.AddChild(pulse);
     pulse.Pulse(GlobalPosition);
   }
-
-
-
 }

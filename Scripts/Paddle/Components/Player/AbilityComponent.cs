@@ -21,7 +21,7 @@ public abstract partial class AbilityComponent : Node
 
   public override void _Process(double delta)
   {
-    if (cooldownTimer < 0f)
+    if (cooldownTimer > 0f)
     {
       cooldownTimer -= (float)delta;
     }

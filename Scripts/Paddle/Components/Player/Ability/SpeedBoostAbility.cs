@@ -15,6 +15,8 @@ public partial class SpeedBoostAbility : AbilityComponent
   private GpuParticles2D trail;
   private CancellationTokenSource boostCts;
 
+  [Export] private Sprite2D paddleSprite;
+
   public override void _Ready()
   {
     base._Ready();
@@ -26,7 +28,7 @@ public partial class SpeedBoostAbility : AbilityComponent
   {
     var material = new ParticleProcessMaterial();
     material.EmissionShape = ParticleProcessMaterial.EmissionShapeEnum.Box;
-    material.EmissionBoxExtents = new Vector3(paddle.GetNode<Sprite2D>("Sprite2D").Texture.GetWidth() / 2f, 2f, 0f);
+    material.EmissionBoxExtents = new Vector3(paddleSprite.Texture.GetWidth() / 2f, 2f, 0f);
     material.Direction = new Vector3(-1, 0, 0);
     material.Spread = 10f;
     material.InitialVelocityMin = 20f;

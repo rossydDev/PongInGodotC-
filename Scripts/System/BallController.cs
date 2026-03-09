@@ -1,13 +1,13 @@
-using System;
 using Godot;
 
-public partial class BallController : Node
+public partial class BallController : Node, IBallProvider
 {
   public static BallController Instance { get; private set; }
 
-  [Export] private Node2D spawnPosition;
+  // ballScene é configurado no Inspector do Autoload (Project > Autoloads > editar)
   [Export] private PackedScene ballScene;
 
+  private Vector2 spawnPosition;
   private BallBase currentBall;
 
   public BallBase CurrentBall => currentBall;
@@ -17,6 +17,12 @@ public partial class BallController : Node
     Instance = this;
 
     GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
+  }
+
+  // Chamado pelo CampInitializer ao montar a arena
+  public void SetSpawnPosition(Vector2 position)
+  {
+    spawnPosition = position;
   }
 
   private void OnGameStateChanged()
@@ -41,7 +47,7 @@ public partial class BallController : Node
 
     AddChild(ball);
 
-    ball.GlobalPosition = spawnPosition.GlobalPosition;
+    ball.GlobalPosition = spawnPosition;
 
     currentBall = ball;
   }

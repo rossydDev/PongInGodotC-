@@ -4,11 +4,11 @@ public partial class PaddleIdleState : PaddleState
 {
   public override void Update(float delta)
   {
-    float center = GameManager.Instance.ScreenWidth / 2f;
+    float center = WorldBounds.Width / 2f;
     paddle.MoveTowards(center, delta);
 
     //Bola voltou para mim? Começar a reagir
-    BallBase ball = BallController.Instance?.CurrentBall;
+    BallBase ball = paddle.Controller.BallProvider?.CurrentBall;
 
     if (ball == null) return;
 

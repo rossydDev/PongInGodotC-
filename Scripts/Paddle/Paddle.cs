@@ -9,7 +9,7 @@ public partial class Paddle : Actor
   {
     Vector2 nextPosition = Position + direction * Speed * delta;
 
-    nextPosition.X = GameManager.Instance.ClampX(nextPosition.X, spriteWidth);
+    nextPosition.X = WorldBounds.ClampX(nextPosition.X, spriteWidth);
 
     Position = nextPosition;
   }

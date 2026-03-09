@@ -1,6 +1,4 @@
 // PlayerController.cs
-using System;
-using System.Diagnostics;
 using Godot;
 
 public enum PlayerStatus
@@ -71,7 +69,7 @@ public partial class PlayerController : Node
     switch (currentStatus)
     {
       case PlayerStatus.Idle:
-        float center = GameManager.Instance.ScreenWidth / 2f;
+        float center = WorldBounds.Width / 2f;
         paddle.MoveTowards(center, (float)delta);
         break;
       case PlayerStatus.Move:

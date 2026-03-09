@@ -43,7 +43,7 @@ public partial class LifeBall : BallBase
     var rect = GetViewportRect();
 
     // Bounce nas paredes laterais (herdado da lógica do BallBase via IsOutOfBounds)
-    if (GameManager.Instance.IsOutOfBounds(Position, spriteWidth))
+    if (WorldBounds.IsOutOfBounds(Position.X, spriteWidth))
     {
       direction.X *= -1;
       SpawnWallPulse();

@@ -18,20 +18,13 @@ public partial class HeartHudComponent : HBoxContainer
     Modulate = new Color(1, 1, 1, 0f); // começa invisível
   }
 
-  public void Initializer(Paddle player)
+  public void Initializer(HealthComponent healthComponent)
   {
-    healthComponent = player.GetNode<HealthComponent>("HealthComponent");
+    this.healthComponent = healthComponent;
     totalHeartSlots = (int)healthComponent.MaxHearts;
     healthComponent.OnHealthChanged += Refresh;
     BuildHearts();
     Refresh(healthComponent.CurrentHearts, healthComponent.MaxHearts);
-
-    // Conecta o sinal do boost para mostrar a HUD automaticamente
-    var ability = player.GetNodeOrNull<SpeedBoostAbility>("SpeedBoostAbility");
-    ability?.Connect(
-        SpeedBoostAbility.SignalName.OnBoostStarted,
-        Callable.From((float _) => ShowTemporarily())
-    );
   }
 
   public void ShowTemporarily()

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://clomnpdyifvyg"]
+
+[ext_resource type="Script" uid="uid://bjaxvj71bh65l" path="res://Scripts/System/BallController.cs" id="1_i5han"]
+[ext_resource type="PackedScene" uid="uid://bf83xotnamf56" path="res://Scenes/Ball/Types/speed_ball.tscn" id="2_5hqh2"]
+
+[node name="BallController" type="Node" unique_id=784049856]
+script = ExtResource("1_i5han")
+ballScene = ExtResource("2_5hqh2")

@@ -14,11 +14,9 @@ public partial class Gol : Node2D
 
   private void OnAreaEntered(Area2D area)
   {
-    if (area.GetOwner<BallBase>() == null) return;
-
     BallBase ball = area.GetOwner<BallBase>();
 
-    if (ball.Score == false) return;
+    if (ball == null || !ball.Score) return;
 
     GameManager.Instance.Scored(adversaryPaddle);
   }

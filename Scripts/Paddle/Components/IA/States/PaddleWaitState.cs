@@ -4,7 +4,7 @@ public partial class PaddleWaitState : PaddleState
 {
   public override void Update(float delta)
   {
-    BallBase ball = BallController.Instance.CurrentBall;
+    BallBase ball = paddle.Controller.BallProvider.CurrentBall;
     if (ball == null) return;
 
     float paddleY = paddle.GlobalPosition.Y;

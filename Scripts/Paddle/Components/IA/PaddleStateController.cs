@@ -4,6 +4,8 @@ public partial class PaddleStateController : Node
 {
   [Export] private StateMachine stateMachine;
 
+  public IBallProvider BallProvider => BallController.Instance;
+
   [ExportGroup("AI Difficulty")]
   [Export] public AIDifficulty Difficulty { get; set; } = AIDifficulty.Medium;
   [Export] public AIDifficultySettings EasySettings = new() { ErrorMargin = 120f, ReactionDelay = 0.6f, MaxBounces = 1 };

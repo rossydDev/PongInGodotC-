@@ -13,7 +13,7 @@ public partial class PaddleReactState : PaddleState
 
   public override void Update(float delta)
   {
-    BallBase ball = BallController.Instance.CurrentBall;
+    BallBase ball = paddle.Controller.BallProvider.CurrentBall;
     if (ball == null) return;
 
     float paddleY = paddle.GlobalPosition.Y;
@@ -41,7 +41,7 @@ public partial class PaddleReactState : PaddleState
     Vector2 pos = ball.GlobalPosition;
     Vector2 vel = ball.Velocity;
     float paddleY = paddle.GlobalPosition.Y;
-    float width = GameManager.Instance.ScreenWidth;
+    float width = WorldBounds.Width;
 
     if (Mathf.Abs(vel.Y) < 0.001f) return pos.X;
 
