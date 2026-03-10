@@ -4,12 +4,38 @@
 [ext_resource type="PackedScene" uid="uid://cu8p4x8jfwfpg" path="res://Scenes/Paddle/IA/paddle_ia.tscn" id="2_0cley"]
 [ext_resource type="PackedScene" uid="uid://dt1dhbh467xc6" path="res://Scenes/Gol/gol.tscn" id="3_hlh3b"]
 [ext_resource type="Script" uid="uid://coek0yfpirqlc" path="res://Scripts/System/ScoreControll.cs" id="4_506ed"]
+[ext_resource type="Script" uid="uid://dbofifuap7gbs" path="res://Scripts/System/Dialogue/DialogueTriggerComponent.cs" id="6_bt2ag"]
 [ext_resource type="LabelSettings" uid="uid://bj8m5e0aocr1u" path="res://Resources/base_font.tres" id="6_f8rlm"]
+[ext_resource type="Script" uid="uid://dieffwxpddtbb" path="res://Scripts/System/Dialogue/DialogueLine.cs" id="7_omgrv"]
 [ext_resource type="PackedScene" uid="uid://blra55e6trgjw" path="res://Scenes/HUD/score_hud.tscn" id="8_fyai8"]
+[ext_resource type="Script" uid="uid://iogmvbc4jwrg" path="res://Scripts/System/Dialogue/DialogueSequence.cs" id="8_ggym1"]
 [ext_resource type="PackedScene" uid="uid://cix7v683rw3ra" path="res://Scenes/HUD/heart_hud_component.tscn" id="9_orqcn"]
 [ext_resource type="PackedScene" uid="uid://bbanr4021pb8k" path="res://Scenes/Components/spawner_component.tscn" id="10_bt2ag"]
 [ext_resource type="PackedScene" uid="uid://btfxbdkvw8622" path="res://Scenes/Ball/Types/life_ball.tscn" id="10_jxa7v"]
 [ext_resource type="Script" uid="uid://b3hy52xcw603o" path="res://Scripts/Camp/CampInitializer.cs" id="11_bt2ag"]
+
+[sub_resource type="Resource" id="Resource_wctpa"]
+script = ExtResource("7_omgrv")
+SpeakerName = "Teste"
+Text = "Olá, bem vindo ao meu projeto de Pong"
+metadata/_custom_type_script = "uid://dieffwxpddtbb"
+
+[sub_resource type="Resource" id="Resource_omgrv"]
+script = ExtResource("7_omgrv")
+SpeakerName = "Inimigo"
+Text = "Esse jogo vai ser um megaman de Pong"
+metadata/_custom_type_script = "uid://dieffwxpddtbb"
+
+[sub_resource type="Resource" id="Resource_ggym1"]
+script = ExtResource("7_omgrv")
+SpeakerName = "Teste"
+Text = "Espero que se divirta!"
+metadata/_custom_type_script = "uid://dieffwxpddtbb"
+
+[sub_resource type="Resource" id="Resource_plsur"]
+script = ExtResource("8_ggym1")
+Lines = Array[Object]([SubResource("Resource_wctpa"), SubResource("Resource_omgrv"), SubResource("Resource_ggym1")])
+metadata/_custom_type_script = "uid://iogmvbc4jwrg"
 
 [sub_resource type="Animation" id="Animation_fyai8"]
 length = 0.001
@@ -130,6 +156,10 @@ position = Vector2(320, 160)
 
 [node name="ScoreControll" type="Node" parent="System" unique_id=1673202303]
 script = ExtResource("4_506ed")
+
+[node name="DialogueTriggerComponent" type="Node" parent="System" unique_id=879374318]
+script = ExtResource("6_bt2ag")
+onMatchStart = SubResource("Resource_plsur")
 
 [node name="BackGround" type="CanvasLayer" parent="." unique_id=1795937422]
 layer = -2

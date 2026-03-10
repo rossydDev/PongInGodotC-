@@ -25,6 +25,9 @@ public partial class CampInitializer : Node
   [Export] private ScoreHud scoreHud;
   [Export] private HeartHudComponent heartHudComponent;
 
+  [ExportGroup("Dialogue")]
+  [Export] private DialogueTriggerComponent dialogueTrigger;
+
   private Paddle paddleEnemy;
   private Paddle playerPaddle;
 
@@ -33,6 +36,7 @@ public partial class CampInitializer : Node
     CreatePaddleEnemy();
     CreatePlayer(playerScene);
     SetupScore();
+    dialogueTrigger?.Initialize();
   }
 
   private void CreatePlayer(PackedScene playerScene)

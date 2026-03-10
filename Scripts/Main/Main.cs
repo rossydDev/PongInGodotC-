@@ -23,7 +23,7 @@ public partial class Main : Node2D
 
   private void OnCurrentCampReady()
   {
-    GameManager.Instance.SwitchState(GameState.Start);
+    GameManager.Instance.SwitchState(GameState.CampReady);
   }
 
 }
