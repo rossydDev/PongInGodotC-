@@ -15,6 +15,10 @@ public partial class DialogueManager : Node
 
   [Export] private DialogueBox dialogueBox;
 
+  // Nó do jogo a esconder durante o diálogo (ex: o Node2D raiz do Camp)
+  // Deixe null se preferir controlar via DimBackground no DialogueBox
+  private Node2D gameLayer;
+
   private DialogueSequence currentSequence;
   private int currentLineIndex;
   private GameState stateBeforeDialogue;
@@ -39,6 +43,7 @@ public partial class DialogueManager : Node
     stateBeforeDialogue = GameManager.Instance.CurrentState;
     GameManager.Instance.SwitchState(GameState.Freeze);
 
+    gameLayer?.Hide();
     dialogueBox.Show();
     ShowCurrentLine();
   }
@@ -78,14 +83,17 @@ public partial class DialogueManager : Node
     currentSequence = null;
     currentLineIndex = 0;
 
+    gameLayer?.Show();
     dialogueBox.Hide();
 
-    // Intro é a única exceção — o MatchIntroComponent escuta OnDialogueFinished
-    // e decide o próximo passo (countdown → Start). Restaurar Intro aqui
-    // causaria loop, pois o DialogueTriggerComponent dispararia o diálogo de novo.
     if (stateBeforeDialogue != GameState.Intro)
       GameManager.Instance.SwitchState(stateBeforeDialogue);
 
     EmitSignal(SignalName.OnDialogueFinished);
+  }
+
+  public void RegisterGameLayer(Node2D layer)
+  {
+    gameLayer = layer;
   }
 }

@@ -12,6 +12,7 @@ public partial class Camp : Node2D
   {
     scoreHud.OnScoreAnimationFinished += OnScoreHudAnimationFinished;
     GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
+    DialogueManager.Instance.RegisterGameLayer(this);
   }
 
   private void OnGameStateChanged()

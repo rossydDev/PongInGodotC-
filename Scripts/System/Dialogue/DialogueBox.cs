@@ -1,17 +1,21 @@
 using Godot;
 
 /// <summary>
-/// Node da UI que exibe uma DialogueLine com efeito typewriter estilo Undertale.
+/// Node da UI que exibe uma DialogueLine com efeito typewriter estilo visual novel.
+/// Portrait grande no lado esquerdo, caixa de texto na base com fundo próprio.
 /// Estrutura da cena: veja dialogue_box.tscn
 /// </summary>
-public partial class DialogueBox : PanelContainer
+public partial class DialogueBox : Control
 {
   [Export] private TextureRect portraitTexture;
   [Export] private Label speakerNameLabel;
   [Export] private RichTextLabel dialogueText;
   [Export] private Label continueArrow;
+  [Export] private ColorRect dimBackground;
+  [Export] private Control portraitContainer;
 
-  [Export] private float typewriterSpeed = 30f; // caracteres por segundo
+  [Export] private float typewriterSpeed = 30f;
+  [Export] private float portraitFadeDuration = 0.3f;
 
   public bool IsTyping { get; private set; }
 
@@ -26,11 +30,25 @@ public partial class DialogueBox : PanelContainer
 
   public void ShowLine(DialogueLine line)
   {
-    // Retrato
+    // Portrait
+    bool hasPortrait = line.Portrait != null;
     if (portraitTexture != null)
     {
+      bool isNewPortrait = portraitTexture.Texture != line.Portrait;
       portraitTexture.Texture = line.Portrait;
-      portraitTexture.GetParent<PanelContainer>().Visible = line.Portrait != null;
+
+      if (portraitContainer != null)
+      {
+        portraitContainer.Visible = hasPortrait;
+
+        // Fade-in só quando troca o portrait
+        if (hasPortrait && isNewPortrait)
+        {
+          portraitContainer.Modulate = new Color(1, 1, 1, 0);
+          var tween = CreateTween();
+          tween.TweenProperty(portraitContainer, "modulate:a", 1f, portraitFadeDuration);
+        }
+      }
     }
 
     // Nome do falante
@@ -40,7 +58,6 @@ public partial class DialogueBox : PanelContainer
       speakerNameLabel.Visible = !string.IsNullOrEmpty(line.SpeakerName);
     }
 
-    // Esconde seta enquanto digita
     SetArrowVisible(false);
 
     // Inicia typewriter
@@ -51,12 +68,10 @@ public partial class DialogueBox : PanelContainer
     IsTyping = true;
   }
 
-  // Completa o texto instantaneamente
   public void Skip()
   {
     if (!IsTyping) return;
-
-    dialogueText.VisibleCharacters = -1; // -1 = mostra tudo
+    dialogueText.VisibleCharacters = -1;
     IsTyping = false;
     SetArrowVisible(true);
   }
@@ -67,7 +82,6 @@ public partial class DialogueBox : PanelContainer
 
     charTimer += delta;
     int charsToAdd = (int)(charTimer * typewriterSpeed);
-
     if (charsToAdd < 1) return;
 
     charTimer -= charsToAdd / typewriterSpeed;
@@ -90,15 +104,10 @@ public partial class DialogueBox : PanelContainer
     if (continueArrow == null) return;
 
     continueArrow.Visible = visible;
-
-    if (!visible)
-    {
-      arrowTween?.Kill();
-      return;
-    }
-
-    // Seta piscante estilo Undertale
     arrowTween?.Kill();
+
+    if (!visible) return;
+
     arrowTween = CreateTween().SetLoops();
     arrowTween.TweenProperty(continueArrow, "modulate:a", 0f, 0.4f);
     arrowTween.TweenProperty(continueArrow, "modulate:a", 1f, 0.4f);

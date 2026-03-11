@@ -8,3 +8,5 @@ script = ExtResource("1_cm373")
 dialogueBox = NodePath("DialogueBox")
 
 [node name="DialogueBox" parent="." unique_id=1227227298 instance=ExtResource("2_x1tg0")]
+grow_horizontal = 2
+grow_vertical = 2
