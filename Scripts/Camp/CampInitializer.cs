@@ -27,6 +27,7 @@ public partial class CampInitializer : Node
 
   [ExportGroup("Dialogue")]
   [Export] private DialogueTriggerComponent dialogueTrigger;
+  [Export] private MatchIntroComponent matchIntro;
 
   private Paddle paddleEnemy;
   private Paddle playerPaddle;
@@ -37,6 +38,12 @@ public partial class CampInitializer : Node
     CreatePlayer(playerScene);
     SetupScore();
     dialogueTrigger?.Initialize();
+  }
+
+  // Chamado pelo Camp quando GameState.Intro é emitido
+  public void BeginIntro()
+  {
+    matchIntro?.Begin();
   }
 
   private void CreatePlayer(PackedScene playerScene)

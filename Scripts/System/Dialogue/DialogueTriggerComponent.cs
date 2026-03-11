@@ -45,7 +45,10 @@ public partial class DialogueTriggerComponent : Node
   {
     switch (GameManager.Instance.CurrentState)
     {
-      case GameState.CampReady:
+      case GameState.Intro:
+        // Reseta gatilhos de score para nova partida
+        firedPlayerScoreTriggers.Clear();
+        firedEnemyScoreTriggers.Clear();
         TryTrigger(onMatchStart);
         break;
 
@@ -55,10 +58,6 @@ public partial class DialogueTriggerComponent : Node
 
       case GameState.PlayerLoser:
         TryTrigger(onEnemyWin);
-        break;
-
-      // Nova partida — reseta gatilhos de score
-      case GameState.Scored:
         break;
     }
   }

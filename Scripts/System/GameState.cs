@@ -1,7 +1,7 @@
 public enum GameState
 {
   Freeze,
-  CampReady,
+  Intro,
   Start,
   Scored,
   PlayerWin,

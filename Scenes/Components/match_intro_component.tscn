@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://ntmko6foxhbg"]
+
+[ext_resource type="Script" uid="uid://bkhn8dlgdesmc" path="res://Scripts/Components/MatchIntroComponent.cs" id="1_r5ymv"]
+
+[node name="MatchIntroComponent" type="Node" unique_id=1693130379 node_paths=PackedStringArray("countLabel")]
+script = ExtResource("1_r5ymv")
+countLabel = NodePath("")

@@ -11,12 +11,19 @@ public partial class Camp : Node2D
   public override void _Ready()
   {
     scoreHud.OnScoreAnimationFinished += OnScoreHudAnimationFinished;
-    EmitSignal(SignalName.OnCampReady);
+    GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
+  }
+
+  private void OnGameStateChanged()
+  {
+    if (GameManager.Instance.CurrentState == GameState.Intro)
+      initializer.BeginIntro();
   }
 
   public void Initializer(PackedScene playerScene)
   {
     initializer.Setup(playerScene);
+    EmitCampReady();
   }
 
   private async void OnScoreHudAnimationFinished()
