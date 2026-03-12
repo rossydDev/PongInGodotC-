@@ -3,35 +3,39 @@ using System;
 
 public partial class ScoreControll : Node
 {
+  public static ScoreControll Instance { get; private set; }
+
   [Signal]
   public delegate void ScoreUpdateEventHandler(int playerScore, int enemyScore);
 
-  private Timer timer;
+  public int PlayerScore { get; private set; }
+  public int EnemyScore { get; private set; }
 
-  public int playerScore;
-  public int enemyScore;
-
-  public void Initializer()
+  public override void _Ready()
   {
+    Instance = this;
     GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
+  }
 
-    playerScore = 0;
-    enemyScore = 0;
+  public void ResetScore()
+  {
+    PlayerScore = 0;
+    EnemyScore = 0;
+    EmitSignal(SignalName.ScoreUpdate, PlayerScore, EnemyScore);
   }
 
   private void OnGameStateChanged()
   {
     if (GameManager.Instance.CurrentState == GameState.PlayerScore)
     {
-      playerScore++;
-      GD.Print($"{playerScore} : {enemyScore}");
-      EmitSignal(SignalName.ScoreUpdate, playerScore, enemyScore);
+      PlayerScore++;
+      EmitSignal(SignalName.ScoreUpdate, PlayerScore, EnemyScore);
     }
     else if (GameManager.Instance.CurrentState == GameState.EnemyScore)
     {
-      enemyScore++;
-      GD.Print($"{playerScore} : {enemyScore}");
-      EmitSignal(SignalName.ScoreUpdate, playerScore, enemyScore);
+      EnemyScore++;
+      EmitSignal(SignalName.ScoreUpdate, PlayerScore, EnemyScore);
     }
   }
+
 }

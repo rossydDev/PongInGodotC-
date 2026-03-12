@@ -18,8 +18,6 @@ public partial class CampInitializer : Node
   [Export] private Gol enemyGol;
   [Export] private Gol playerGol;
 
-  [ExportGroup("Systems")]
-  [Export] private ScoreControll scoreControll;
 
   [ExportGroup("HUD")]
   [Export] private ScoreHud scoreHud;
@@ -78,8 +76,7 @@ public partial class CampInitializer : Node
 
   private void SetupScore()
   {
-    scoreControll.Initializer();
-    scoreControll.ScoreUpdate += (playerScore, enemyScore) =>
-      scoreHud.SetScore(playerScore, enemyScore);
+    ScoreControll.Instance.ResetScore();
+    ScoreControll.Instance.ScoreUpdate += (playerScore, enemyScore) => scoreHud.SetScore(playerScore, enemyScore);
   }
 }

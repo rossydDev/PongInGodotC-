@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 GameManager="*uid://5df4o1jdoeaa"
 BallController="*uid://clomnpdyifvyg"
 DialogueManager="*uid://mjyl2luen2vi"
+ScoreControll="*uid://coek0yfpirqlc"
 
 [display]
 
