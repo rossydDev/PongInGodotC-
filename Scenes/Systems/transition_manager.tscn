@@ -4,7 +4,7 @@
 [ext_resource type="Material" uid="uid://djjqu741x8031" path="res://Resources/ShaderMaterial/TransitionShader.tres" id="2_78apu"]
 
 [node name="TransitionManager" type="CanvasLayer" unique_id=1941472128 node_paths=PackedStringArray("transitionEffect")]
-layer = 10
+layer = 100
 script = ExtResource("1_be31n")
 transitionEffect = NodePath("ColorRect")
 
