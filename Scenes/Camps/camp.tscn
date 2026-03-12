@@ -5,33 +5,43 @@
 [ext_resource type="PackedScene" uid="uid://dt1dhbh467xc6" path="res://Scenes/Gol/gol.tscn" id="3_hlh3b"]
 [ext_resource type="Script" uid="uid://dbofifuap7gbs" path="res://Scripts/System/Dialogue/DialogueTriggerComponent.cs" id="6_bt2ag"]
 [ext_resource type="LabelSettings" uid="uid://bj8m5e0aocr1u" path="res://Resources/base_font.tres" id="6_f8rlm"]
+[ext_resource type="Script" uid="uid://dieffwxpddtbb" path="res://Scripts/System/Dialogue/DialogueLine.cs" id="7_omgrv"]
+[ext_resource type="Texture2D" uid="uid://dwfcxgoivuujn" path="res://Assets/Portrait/testePT.png" id="7_wctpa"]
 [ext_resource type="PackedScene" uid="uid://blra55e6trgjw" path="res://Scenes/HUD/score_hud.tscn" id="8_fyai8"]
+[ext_resource type="Script" uid="uid://iogmvbc4jwrg" path="res://Scripts/System/Dialogue/DialogueSequence.cs" id="8_ggym1"]
+[ext_resource type="Script" uid="uid://c0qxtcpq7x2s4" path="res://Scripts/Components/VictoryConditionComponent.cs" id="9_8r5mo"]
 [ext_resource type="PackedScene" uid="uid://cix7v683rw3ra" path="res://Scenes/HUD/heart_hud_component.tscn" id="9_orqcn"]
-[ext_resource type="PackedScene" uid="uid://bbanr4021pb8k" path="res://Scenes/Components/spawner_component.tscn" id="10_bt2ag"]
-[ext_resource type="PackedScene" uid="uid://btfxbdkvw8622" path="res://Scenes/Ball/Types/life_ball.tscn" id="10_jxa7v"]
 [ext_resource type="Script" uid="uid://b3hy52xcw603o" path="res://Scripts/Camp/CampInitializer.cs" id="11_bt2ag"]
 [ext_resource type="PackedScene" uid="uid://ntmko6foxhbg" path="res://Scenes/Components/match_intro_component.tscn" id="13_omgrv"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bt2ag"]
-size = Vector2(224, 122)
+[sub_resource type="Resource" id="Resource_omgrv"]
+script = ExtResource("7_omgrv")
+SpeakerName = "Teste"
+Portrait = ExtResource("7_wctpa")
+Text = "Testando se o plano de fundo funciona"
+metadata/_custom_type_script = "uid://dieffwxpddtbb"
+
+[sub_resource type="Resource" id="Resource_ggym1"]
+script = ExtResource("8_ggym1")
+Lines = Array[Object]([SubResource("Resource_omgrv")])
+metadata/_custom_type_script = "uid://iogmvbc4jwrg"
+
+[sub_resource type="Resource" id="Resource_wctpa"]
+script = ExtResource("7_omgrv")
+SpeakerName = "Teste"
+Portrait = ExtResource("7_wctpa")
+Text = "Testando o plano de fundo"
+metadata/_custom_type_script = "uid://dieffwxpddtbb"
+
+[sub_resource type="Resource" id="Resource_plsur"]
+script = ExtResource("8_ggym1")
+Lines = Array[Object]([SubResource("Resource_wctpa")])
+metadata/_custom_type_script = "uid://iogmvbc4jwrg"
 
 [node name="Camp" type="Node2D" unique_id=1353902688 node_paths=PackedStringArray("initializer", "scoreHud")]
 script = ExtResource("1_i6bm5")
-initializer = NodePath("CampInitializer")
+initializer = NodePath("System/CampInitializer")
 scoreHud = NodePath("UI/HUD/ScoreHUD")
-
-[node name="CampInitializer" type="Node2D" parent="." unique_id=1508734346 node_paths=PackedStringArray("playerSpawnPosition", "enemySpawnPosition", "ballSpawnPosition", "enemyGol", "playerGol", "scoreHud", "heartHudComponent", "dialogueTrigger", "matchIntro")]
-script = ExtResource("11_bt2ag")
-paddleEnemyScene = ExtResource("2_0cley")
-playerSpawnPosition = NodePath("../Paddles/PlayerSpawn")
-enemySpawnPosition = NodePath("../Paddles/EnemySpawn")
-ballSpawnPosition = NodePath("../BallSpawn")
-enemyGol = NodePath("../Gols/EnemyGol")
-playerGol = NodePath("../Gols/PlayerGol")
-scoreHud = NodePath("../UI/HUD/ScoreHUD")
-heartHudComponent = NodePath("../UI/HUD/HeartHudComponent")
-dialogueTrigger = NodePath("../System/DialogueTriggerComponent")
-matchIntro = NodePath("../System/MatchIntroComponent")
 
 [node name="Paddles" type="Node2D" parent="." unique_id=112760045]
 
@@ -54,23 +64,30 @@ position = Vector2(320, 160)
 
 [node name="System" type="Node" parent="." unique_id=672425665]
 
-[node name="DialogueTriggerComponent" type="Node" parent="System" unique_id=879374318 node_paths=PackedStringArray("scoreControll")]
+[node name="DialogueTriggerComponent" type="Node" parent="System" unique_id=879374318]
 script = ExtResource("6_bt2ag")
-scoreControll = NodePath("")
+onPlayerWin = SubResource("Resource_ggym1")
+onEnemyWin = SubResource("Resource_plsur")
 
 [node name="MatchIntroComponent" parent="System" unique_id=1693130379 node_paths=PackedStringArray("countLabel") instance=ExtResource("13_omgrv")]
 countLabel = NodePath("../../UI/HUD/Label")
 
-[node name="SpawnerComponent" parent="System" unique_id=2073414605 node_paths=PackedStringArray("spawnArea") instance=ExtResource("10_bt2ag")]
-oneShot = true
-minTimeout = 4.0
-maxTimeout = 6.0
-scenes = Array[PackedScene]([ExtResource("10_jxa7v")])
-spawnArea = NodePath("CollisionShape2D")
+[node name="VictoryConditionComponent" type="Node" parent="System" unique_id=487248635]
+script = ExtResource("9_8r5mo")
+scoreToWin = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="System/SpawnerComponent" unique_id=540895150]
-position = Vector2(306, 168)
-shape = SubResource("RectangleShape2D_bt2ag")
+[node name="CampInitializer" type="Node2D" parent="System" unique_id=1508734346 node_paths=PackedStringArray("playerSpawnPosition", "enemySpawnPosition", "ballSpawnPosition", "enemyGol", "playerGol", "scoreHud", "heartHudComponent", "dialogueTrigger", "matchIntro")]
+script = ExtResource("11_bt2ag")
+paddleEnemyScene = ExtResource("2_0cley")
+playerSpawnPosition = NodePath("../../Paddles/PlayerSpawn")
+enemySpawnPosition = NodePath("../../Paddles/EnemySpawn")
+ballSpawnPosition = NodePath("../../BallSpawn")
+enemyGol = NodePath("../../Gols/EnemyGol")
+playerGol = NodePath("../../Gols/PlayerGol")
+scoreHud = NodePath("../../UI/HUD/ScoreHUD")
+heartHudComponent = NodePath("../../UI/HUD/HeartHudComponent")
+dialogueTrigger = NodePath("../DialogueTriggerComponent")
+matchIntro = NodePath("../MatchIntroComponent")
 
 [node name="UI" type="Control" parent="." unique_id=1160654548]
 layout_mode = 3

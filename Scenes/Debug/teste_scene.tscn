@@ -3,8 +3,23 @@
 [ext_resource type="Script" uid="uid://ce8jica64ympg" path="res://Scripts/Main/Main.cs" id="1_7flqa"]
 [ext_resource type="PackedScene" uid="uid://c0eckx8m3n0dl" path="res://Scenes/Camps/camp.tscn" id="2_kcolr"]
 [ext_resource type="PackedScene" uid="uid://bqsee0uc3uwxm" path="res://Scenes/Paddle/Player/player.tscn" id="3_0u5fo"]
+[ext_resource type="PackedScene" uid="uid://c7yrcktcyowbd" path="res://Scenes/HUD/game_over_screen.tscn" id="4_0u5fo"]
+[ext_resource type="PackedScene" uid="uid://l0qbupwrg4s2" path="res://Scenes/HUD/victory_screen.tscn" id="5_gavhv"]
 
-[node name="TesteScene" type="Node2D" unique_id=998402233]
+[node name="TesteScene" type="Node2D" unique_id=998402233 node_paths=PackedStringArray("victoryScreen", "gameOverScreen")]
 script = ExtResource("1_7flqa")
 campScene = ExtResource("2_kcolr")
 playerPaddleScene = ExtResource("3_0u5fo")
+victoryScreen = NodePath("Menus/VictoryScreen")
+gameOverScreen = NodePath("Menus/GameOverScreen")
+
+[node name="Menus" type="CanvasLayer" parent="." unique_id=1098268640]
+layer = 9
+
+[node name="VictoryScreen" parent="Menus" unique_id=2013201691 instance=ExtResource("5_gavhv")]
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverScreen" parent="Menus" unique_id=828823216 instance=ExtResource("4_0u5fo")]
+grow_horizontal = 2
+grow_vertical = 2

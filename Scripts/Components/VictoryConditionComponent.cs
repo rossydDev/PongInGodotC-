@@ -14,13 +14,14 @@ public partial class VictoryConditionComponent : Node
   {
     if (playerScore >= scoreToWin)
     {
-      GameManager.Instance.SwitchState(GameState.PlayerWin);
+      GD.Print("Testando!");
+      GameManager.Instance.SwitchState(GameState.PlayerWinPending);
       return;
     }
 
     if (enemyScore >= scoreToWin)
     {
-      GameManager.Instance.SwitchState(GameState.PlayerLoser);
+      GameManager.Instance.SwitchState(GameState.EnemyWinPending);
     }
   }
 }

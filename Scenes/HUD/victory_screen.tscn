@@ -1,0 +1,223 @@
+[gd_scene format=3 uid="uid://l0qbupwrg4s2"]
+
+[ext_resource type="Script" uid="uid://drcux6uk4dn3g" path="res://Scripts/HUD/VictoryScreen.cs" id="1_2gri8"]
+[ext_resource type="FontFile" uid="uid://bfvtl2ykqbbkb" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="1_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+content_margin_left = 32.0
+content_margin_top = 32.0
+content_margin_right = 32.0
+content_margin_bottom = 32.0
+bg_color = Color(0.04, 0.04, 0.04, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("1_font")
+font_size = 20
+font_color = Color(0.2, 1, 0.6, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_score_label"]
+font = ExtResource("1_font")
+font_size = 9
+font_color = Color(0.7, 0.7, 0.7, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_score_value"]
+font = ExtResource("1_font")
+font_size = 24
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ability"]
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+bg_color = Color(0.08, 0.08, 0.08, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 1, 0.6, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ability_title"]
+font = ExtResource("1_font")
+font_size = 8
+font_color = Color(0.7, 0.7, 0.7, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ability_name"]
+font = ExtResource("1_font")
+font_size = 10
+font_color = Color(0.2, 1, 0.6, 1)
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+bg_color = Color(0.2, 1, 0.6, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
+content_margin_left = 20.0
+content_margin_top = 10.0
+content_margin_right = 20.0
+content_margin_bottom = 10.0
+bg_color = Color(0.4, 1, 0.7, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+
+[node name="VictoryScreen" type="Control" unique_id=2013201691 node_paths=PackedStringArray("playerScoreLabel", "enemyScoreLabel", "abilityPanel", "abilityNameLabel", "abilityIcon", "continueButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_2gri8")
+playerScoreLabel = NodePath("DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow/PlayerScore/Value")
+enemyScoreLabel = NodePath("DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow/EnemyScore/Value")
+abilityPanel = NodePath("DimBg/PanelContainer/MarginContainer/VBoxContainer/AbilityPanel")
+abilityNameLabel = NodePath("DimBg/PanelContainer/MarginContainer/VBoxContainer/AbilityPanel/HBox/AbilityTexts/AbilityName")
+abilityIcon = NodePath("DimBg/PanelContainer/MarginContainer/VBoxContainer/AbilityPanel/HBox/AbilityIcon")
+continueButton = NodePath("DimBg/PanelContainer/MarginContainer/VBoxContainer/ContinueButton")
+
+[node name="DimBg" type="ColorRect" parent="." unique_id=316487527]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.29411766)
+
+[node name="PanelContainer" type="PanelContainer" parent="DimBg" unique_id=642486989]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -181.0
+offset_right = 280.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="MarginContainer" type="MarginContainer" parent="DimBg/PanelContainer" unique_id=591591192]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DimBg/PanelContainer/MarginContainer" unique_id=1751622501]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Title" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer" unique_id=372319365]
+layout_mode = 2
+text = "VITÓRIA!"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+
+[node name="Separator1" type="HSeparator" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer" unique_id=333978081]
+layout_mode = 2
+
+[node name="ScoreRow" type="HBoxContainer" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer" unique_id=1223583902]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="PlayerScore" type="VBoxContainer" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow" unique_id=1531017224]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ScoreLabel" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow/PlayerScore" unique_id=248770789]
+layout_mode = 2
+text = "VOCÊ"
+label_settings = SubResource("LabelSettings_score_label")
+horizontal_alignment = 1
+
+[node name="Value" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow/PlayerScore" unique_id=2099871438]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_score_value")
+horizontal_alignment = 1
+
+[node name="Divider" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow" unique_id=2105665194]
+layout_mode = 2
+text = "x"
+label_settings = SubResource("LabelSettings_score_value")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyScore" type="VBoxContainer" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow" unique_id=1120868249]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ScoreLabel" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow/EnemyScore" unique_id=1653536082]
+layout_mode = 2
+text = "INIMIGO"
+label_settings = SubResource("LabelSettings_score_label")
+horizontal_alignment = 1
+
+[node name="Value" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow/EnemyScore" unique_id=1808469608]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_score_value")
+horizontal_alignment = 1
+
+[node name="Separator2" type="HSeparator" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer" unique_id=1842997407]
+layout_mode = 2
+
+[node name="AbilityPanel" type="PanelContainer" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer" unique_id=2129802335]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ability")
+
+[node name="HBox" type="HBoxContainer" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/AbilityPanel" unique_id=840039827]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="AbilityIcon" type="TextureRect" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/AbilityPanel/HBox" unique_id=1417868117]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+expand_mode = 3
+stretch_mode = 5
+
+[node name="AbilityTexts" type="VBoxContainer" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/AbilityPanel/HBox" unique_id=557333184]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="AbilityTitle" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/AbilityPanel/HBox/AbilityTexts" unique_id=956820716]
+layout_mode = 2
+text = "HABILIDADE OBTIDA"
+label_settings = SubResource("LabelSettings_ability_title")
+
+[node name="AbilityName" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/AbilityPanel/HBox/AbilityTexts" unique_id=1322370862]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_ability_name")
+
+[node name="ContinueButton" type="Button" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer" unique_id=699817002]
+layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_font")
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_button_hover")
+text = "CONTINUAR"

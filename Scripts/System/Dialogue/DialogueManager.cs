@@ -86,9 +86,8 @@ public partial class DialogueManager : Node
     gameLayer?.Show();
     dialogueBox.Hide();
 
-    if (stateBeforeDialogue != GameState.Intro)
-      GameManager.Instance.SwitchState(stateBeforeDialogue);
-
+    // Não restaura estado nenhum — quem iniciou o diálogo é responsável
+    // pelo próximo estado via OnDialogueFinished
     EmitSignal(SignalName.OnDialogueFinished);
   }
 

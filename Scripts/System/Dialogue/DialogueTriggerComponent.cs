@@ -1,16 +1,6 @@
 using Godot;
 using System.Collections.Generic;
 
-/// <summary>
-/// Componente declarativo que define todos os gatilhos de diálogo de um campo.
-/// Adicione como filho do Camp e preencha os [Export] no Inspector.
-/// Escuta GameManager e ScoreControll por conta própria — ninguém precisa chamá-lo.
-///
-/// Gatilhos disponíveis:
-///   - Início da partida
-///   - Vitória do player / do inimigo
-///   - Score do player ou inimigo bater um valor específico
-/// </summary>
 public partial class DialogueTriggerComponent : Node
 {
   [ExportGroup("Gatilhos de Estado")]
@@ -22,23 +12,20 @@ public partial class DialogueTriggerComponent : Node
   [Export] private DialogueScoreTrigger[] onPlayerScore;
   [Export] private DialogueScoreTrigger[] onEnemyScore;
 
-  [ExportGroup("Dependências")]
-  [Export] private ScoreControll scoreControll;
-
-  // Controle de gatilhos já disparados nesta partida
   private readonly HashSet<int> firedPlayerScoreTriggers = new();
   private readonly HashSet<int> firedEnemyScoreTriggers = new();
+
+  // Estado pendente aguardando fim do diálogo
+  private GameState? pendingState = null;
 
   public override void _Ready()
   {
     GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
   }
 
-  // Chamado pelo CampInitializer após o SetupScore — garante que o ScoreControll já foi inicializado
   public void Initialize()
   {
-    if (scoreControll != null)
-      scoreControll.ScoreUpdate += OnScoreUpdate;
+    ScoreControll.Instance.ScoreUpdate += OnScoreUpdate;
   }
 
   private void OnGameStateChanged()
@@ -46,18 +33,17 @@ public partial class DialogueTriggerComponent : Node
     switch (GameManager.Instance.CurrentState)
     {
       case GameState.Intro:
-        // Reseta gatilhos de score para nova partida
         firedPlayerScoreTriggers.Clear();
         firedEnemyScoreTriggers.Clear();
-        TryTrigger(onMatchStart);
+        TryTrigger(onMatchStart, null);
         break;
 
-      case GameState.PlayerWin:
-        TryTrigger(onPlayerWin);
+      case GameState.PlayerWinPending:
+        TryTrigger(onPlayerWin, GameState.PlayerWin);
         break;
 
-      case GameState.PlayerLoser:
-        TryTrigger(onEnemyWin);
+      case GameState.EnemyWinPending:
+        TryTrigger(onEnemyWin, GameState.PlayerLoser);
         break;
     }
   }
@@ -82,13 +68,41 @@ public partial class DialogueTriggerComponent : Node
       if (currentScore < trigger.AtScore) continue;
 
       fired.Add(trigger.AtScore);
-      TryTrigger(trigger.Dialogue);
+      TryTrigger(trigger.Dialogue, null);
     }
   }
 
-  private void TryTrigger(DialogueSequence sequence)
+  // Se tem diálogo: intercepta e guarda o próximo estado para emitir ao terminar
+  // Se não tem: emite o próximo estado direto
+  private void TryTrigger(DialogueSequence sequence, GameState? stateAfter)
   {
-    if (sequence == null) return;
+    pendingState = stateAfter;
+
+    if (sequence == null)
+    {
+      FlushPendingState();
+      return;
+    }
+
+    DialogueManager.Instance.OnDialogueFinished += OnDialogueFinished;
     DialogueManager.Instance.StartDialogue(sequence);
+  }
+
+  private void OnDialogueFinished()
+  {
+    DialogueManager.Instance.OnDialogueFinished -= OnDialogueFinished;
+
+    // Diálogos situacionais (stateAfter = null) voltam para Start
+    if (pendingState == null)
+      GameManager.Instance.SwitchState(GameState.Start);
+    else
+      FlushPendingState();
+  }
+
+  private void FlushPendingState()
+  {
+    if (pendingState == null) return;
+    GameManager.Instance.SwitchState(pendingState.Value);
+    pendingState = null;
   }
 }

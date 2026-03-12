@@ -1,30 +1,72 @@
-using System;
 using Godot;
 
 public partial class Main : Node2D
 {
-  [Export] PackedScene campScene;
-  [Export] PackedScene playerPaddleScene;
+  [Export] private PackedScene campScene;
+  [Export] private PackedScene playerPaddleScene;
+  [Export] private VictoryScreen victoryScreen;
+  [Export] private GameOverScreen gameOverScreen;
 
-  Camp currentCamp;
+  private Camp currentCamp;
 
   public Camp CurrentCamp => currentCamp;
 
   public override void _Ready()
   {
-    currentCamp = campScene.Instantiate<Camp>();
+    victoryScreen.OnContinue += OnContinue;
+    gameOverScreen.OnRetry += OnRetry;
+    gameOverScreen.OnQuit += OnQuit;
 
+    LoadCamp(campScene);
+  }
+
+  private void LoadCamp(PackedScene scene)
+  {
+    if (currentCamp != null)
+    {
+      currentCamp.GetNode<CampInitializer>("System/CampInitializer").Cleanup();
+      currentCamp.QueueFree();
+      currentCamp = null;
+    }
+
+    currentCamp = scene.Instantiate<Camp>();
     AddChild(currentCamp);
-
     currentCamp.OnCampReady += OnCurrentCampReady;
-
     currentCamp.Initializer(playerPaddleScene);
+    DialogueManager.Instance.RegisterGameLayer(currentCamp);
   }
 
   private void OnCurrentCampReady()
   {
-    GD.Print("Testando");
     GameManager.Instance.SwitchState(GameState.Intro);
   }
 
+  private async void OnContinue()
+  {
+    if (TransitionManager.Instance != null)
+    {
+      await TransitionManager.Instance.PlayTransition(() => LoadCamp(campScene));
+    }
+    else
+    {
+      LoadCamp(campScene);
+    }
+  }
+
+  private async void OnRetry()
+  {
+    if (TransitionManager.Instance != null)
+    {
+      await TransitionManager.Instance.PlayTransition(() => LoadCamp(campScene));
+    }
+    else
+    {
+      LoadCamp(campScene);
+    }
+  }
+
+  private void OnQuit()
+  {
+    GetTree().Quit();
+  }
 }

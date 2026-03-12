@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://bxoiakf126uhd"]
+
+[ext_resource type="Script" uid="uid://8hijopif7jx4" path="res://Scripts/System/TransitionManager.cs" id="1_be31n"]
+[ext_resource type="Material" uid="uid://djjqu741x8031" path="res://Resources/ShaderMaterial/TransitionShader.tres" id="2_78apu"]
+
+[node name="TransitionManager" type="CanvasLayer" unique_id=1941472128 node_paths=PackedStringArray("transitionEffect")]
+layer = 10
+script = ExtResource("1_be31n")
+transitionEffect = NodePath("ColorRect")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1720594640]
+material = ExtResource("2_78apu")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

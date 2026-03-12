@@ -33,6 +33,8 @@ public partial class MatchIntroComponent : Node
       countLabel.Visible = false;
 
     DialogueManager.Instance.OnDialogueFinished += OnDialogueFinished;
+
+    TreeExiting += () => DialogueManager.Instance.OnDialogueFinished -= OnDialogueFinished;
   }
 
   // Chamado pelo Camp quando GameState.Intro é emitido
@@ -53,6 +55,7 @@ public partial class MatchIntroComponent : Node
   private async void StartCountdown()
   {
     introCompleted = true;
+
     if (!showCountdown)
     {
       GameManager.Instance.SwitchState(GameState.Start);
@@ -69,39 +72,46 @@ public partial class MatchIntroComponent : Node
 
     for (int i = countFrom; i >= 1; i--)
     {
+      if (!IsInstanceValid(this)) return; // ← checa o próprio nó
       await AnimateCount(i.ToString(), numberColor);
+      if (!IsInstanceValid(this)) return;
       await ToSignal(
-        GetTree().CreateTimer(intervalBetweenCounts - punchDuration - shrinkDuration, true),
-        SceneTreeTimer.SignalName.Timeout
+          GetTree().CreateTimer(intervalBetweenCounts - punchDuration - shrinkDuration, true),
+          SceneTreeTimer.SignalName.Timeout
       );
     }
 
+    if (!IsInstanceValid(this)) return;
     await AnimateCount("Go!", goColor);
 
+    if (!IsInstanceValid(this)) return;
     await ToSignal(
-      GetTree().CreateTimer(0.4f, true),
-      SceneTreeTimer.SignalName.Timeout
+        GetTree().CreateTimer(0.4f, true),
+        SceneTreeTimer.SignalName.Timeout
     );
 
+    if (!IsInstanceValid(this)) return;
     countLabel.Visible = false;
     GameManager.Instance.SwitchState(GameState.Start);
   }
 
   private async System.Threading.Tasks.Task AnimateCount(string text, Color color)
   {
+    if (!IsInstanceValid(countLabel)) return;
+
     countLabel.Text = text;
     countLabel.Modulate = color;
     countLabel.Scale = Vector2.Zero;
     countLabel.PivotOffset = countLabel.Size / 2f;
 
-    // Punch: escala estoura rápido
     Tween punch = CreateTween();
     punch.SetEase(Tween.EaseType.Out);
     punch.SetTrans(Tween.TransitionType.Back);
     punch.TweenProperty(countLabel, "scale", Vector2.One * punchScale, punchDuration);
     await ToSignal(punch, Tween.SignalName.Finished);
 
-    // Shrink: volta ao tamanho normal suavemente
+    if (!IsInstanceValid(countLabel)) return;
+
     Tween shrink = CreateTween();
     shrink.SetEase(Tween.EaseType.In);
     shrink.SetTrans(Tween.TransitionType.Cubic);

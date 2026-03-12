@@ -1,115 +1,127 @@
-[gd_scene format=3 uid="uid://cs2cb7h6bo16p"]
+[gd_scene format=3 uid="uid://caexe7g1fq0gr"]
 
-[ext_resource type="Script" uid="uid://btiuvkyhoqgpw" path="res://Scripts/System/Dialogue/DialogueBox.cs" id="1_2f6ay"]
-[ext_resource type="FontFile" uid="uid://bfvtl2ykqbbkb" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="2_xlgux"]
+[ext_resource type="Script" uid="uid://btiuvkyhoqgpw" path="res://Scripts/System/Dialogue/DialogueBox.cs" id="1_script"]
+[ext_resource type="FontFile" uid="uid://bfvtl2ykqbbkb" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="2_font"]
+[ext_resource type="Texture2D" uid="uid://dwfcxgoivuujn" path="res://Assets/Portrait/testePT.png" id="2_vfhek"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_textpanel"]
 content_margin_left = 20.0
-content_margin_top = 14.0
+content_margin_top = 16.0
 content_margin_right = 20.0
-content_margin_bottom = 14.0
-bg_color = Color(0.04, 0.04, 0.04, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(1, 1, 1, 1)
+content_margin_bottom = 16.0
+bg_color = Color(0.05, 0.05, 0.05, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_namebar"]
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 14.0
+content_margin_bottom = 6.0
+bg_color = Color(0.2, 1, 0.6, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_name"]
-font = ExtResource("2_xlgux")
-font_size = 11
-font_color = Color(0.2, 1, 0.6, 1)
-outline_size = 3
-outline_color = Color(0, 0, 0, 1)
+font = ExtResource("2_font")
+font_size = 10
+font_color = Color(0, 0, 0, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_text"]
-line_spacing = 6.0
-font = ExtResource("2_xlgux")
+[sub_resource type="LabelSettings" id="LabelSettings_arrow"]
+font = ExtResource("2_font")
 font_size = 9
+font_color = Color(0.2, 1, 0.6, 1)
 
-[node name="DialogueBox" type="Control" unique_id=1227227298 node_paths=PackedStringArray("portraitTexture", "speakerNameLabel", "dialogueText", "continueArrow", "dimBackground", "portraitContainer")]
-top_level = true
+[node name="DialogueBox" type="Control" unique_id=941537669 node_paths=PackedStringArray("portraitTexture", "portraitContainer", "dimBackground", "speakerNameLabel", "dialogueText", "continueArrow")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource("1_2f6ay")
+script = ExtResource("1_script")
 portraitTexture = NodePath("PortraitContainer/PortraitTexture")
-speakerNameLabel = NodePath("TextPanel/MarginContainer/VBoxContainer/SpeakerName")
-dialogueText = NodePath("TextPanel/MarginContainer/VBoxContainer/DialogueText")
-continueArrow = NodePath("TextPanel/MarginContainer/VBoxContainer/ContinueArrow")
-dimBackground = NodePath("DimBackground")
 portraitContainer = NodePath("PortraitContainer")
+dimBackground = NodePath("DimBackground")
+speakerNameLabel = NodePath("BottomArea/TextPanel/MarginContainer/VBox/NameBar/SpeakerName")
+dialogueText = NodePath("BottomArea/TextPanel/MarginContainer/VBox/DialogueText")
+continueArrow = NodePath("BottomArea/TextPanel/MarginContainer/VBox/ContinueArrow")
 
-[node name="DimBackground" type="ColorRect" parent="." unique_id=100000001]
+[node name="DimBackground" type="ColorRect" parent="." unique_id=508306997]
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0, 0, 0, 0.55)
+color = Color(0, 0, 0, 0.6)
 
-[node name="PortraitContainer" type="Control" parent="." unique_id=100000002]
-anchors_preset = 0
+[node name="PortraitContainer" type="Control" parent="." unique_id=1885129156]
+layout_mode = 1
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -520.0
-offset_right = 400.0
+offset_top = -360.0
+offset_right = 420.0
+offset_bottom = -140.0
 grow_vertical = 0
 
-[node name="PortraitTexture" type="TextureRect" parent="PortraitContainer" unique_id=100000003]
+[node name="PortraitTexture" type="TextureRect" parent="PortraitContainer" unique_id=233194272]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.30800003
-anchor_right = 1.0
+anchor_top = 0.577
+anchor_right = 0.998
 anchor_bottom = 1.0
-offset_top = -0.16001892
+offset_left = -1.0
+offset_top = -126.94
+offset_right = -216.16
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+texture = ExtResource("2_vfhek")
 expand_mode = 3
 stretch_mode = 5
 
-[node name="TextPanel" type="PanelContainer" parent="." unique_id=100000004]
-layout_mode = 0
+[node name="BottomArea" type="Control" parent="." unique_id=1194695873]
+anchors_preset = 0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -160.0
-grow_horizontal = 2
+offset_top = -140.0
 grow_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="MarginContainer" type="MarginContainer" parent="TextPanel" unique_id=100000005]
+[node name="TextPanel" type="PanelContainer" parent="BottomArea" unique_id=331289069]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_textpanel")
+
+[node name="MarginContainer" type="MarginContainer" parent="BottomArea/TextPanel" unique_id=900078909]
 layout_mode = 2
-theme_override_constants/margin_left = 220
-theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TextPanel/MarginContainer" unique_id=100000006]
+[node name="VBox" type="VBoxContainer" parent="BottomArea/TextPanel/MarginContainer" unique_id=407978699]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 10
 
-[node name="SpeakerName" type="Label" parent="TextPanel/MarginContainer/VBoxContainer" unique_id=487134070]
+[node name="NameBar" type="PanelContainer" parent="BottomArea/TextPanel/MarginContainer/VBox" unique_id=1469847124]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_namebar")
+
+[node name="SpeakerName" type="Label" parent="BottomArea/TextPanel/MarginContainer/VBox/NameBar" unique_id=772360214]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_name")
 
-[node name="Divider" type="HSeparator" parent="TextPanel/MarginContainer/VBoxContainer" unique_id=100000007]
-layout_mode = 2
-
-[node name="DialogueText" type="RichTextLabel" parent="TextPanel/MarginContainer/VBoxContainer" unique_id=2092419327]
+[node name="DialogueText" type="RichTextLabel" parent="BottomArea/TextPanel/MarginContainer/VBox" unique_id=189790815]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_colors/default_color = Color(1, 1, 1, 1)
-theme_override_constants/line_separation = 6
-theme_override_fonts/normal_font = ExtResource("2_xlgux")
+theme_override_constants/line_separation = 8
+theme_override_fonts/normal_font = ExtResource("2_font")
 theme_override_font_sizes/normal_font_size = 9
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
 visible_characters = 0
 
-[node name="ContinueArrow" type="Label" parent="TextPanel/MarginContainer/VBoxContainer" unique_id=1981516039]
+[node name="ContinueArrow" type="Label" parent="BottomArea/TextPanel/MarginContainer/VBox" unique_id=1387991383]
 visible = false
 layout_mode = 2
 text = "▼"
-label_settings = SubResource("LabelSettings_text")
+label_settings = SubResource("LabelSettings_arrow")
 horizontal_alignment = 2

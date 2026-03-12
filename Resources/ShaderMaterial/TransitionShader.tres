@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://djjqu741x8031"]
+
+[ext_resource type="Shader" uid="uid://bmfuwid44t546" path="res://Resources/shaders/fractal_transition.gdshader" id="1_kqk7v"]
+
+[resource]
+shader = ExtResource("1_kqk7v")
+shader_parameter/progress = 0.0
+shader_parameter/speed = 0.1
+shader_parameter/pixelation = Vector2(2, 2)
+shader_parameter/zoom = 2.0
+shader_parameter/background_threshold = 0.0
+shader_parameter/color_threshold = 0.24
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/seed = 0.0

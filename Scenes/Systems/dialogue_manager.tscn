@@ -1,12 +1,15 @@
 [gd_scene format=3 uid="uid://mjyl2luen2vi"]
 
 [ext_resource type="Script" uid="uid://bhpmvg5mox8fv" path="res://Scripts/System/Dialogue/DialogueManager.cs" id="1_cm373"]
-[ext_resource type="PackedScene" uid="uid://cs2cb7h6bo16p" path="res://Scenes/HUD/dialogue_box.tscn" id="2_x1tg0"]
+[ext_resource type="PackedScene" uid="uid://caexe7g1fq0gr" path="res://Scenes/HUD/dialogue_box.tscn" id="2_x1tg0"]
 
 [node name="DialogueManager" type="Node" unique_id=2062408828 node_paths=PackedStringArray("dialogueBox")]
 script = ExtResource("1_cm373")
-dialogueBox = NodePath("DialogueBox")
+dialogueBox = NodePath("CanvasLayer/DialogueBox")
 
-[node name="DialogueBox" parent="." unique_id=1227227298 instance=ExtResource("2_x1tg0")]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1157473237]
+layer = 8
+
+[node name="DialogueBox" parent="CanvasLayer" unique_id=941537669 instance=ExtResource("2_x1tg0")]
 grow_horizontal = 2
 grow_vertical = 2

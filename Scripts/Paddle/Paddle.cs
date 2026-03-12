@@ -3,7 +3,7 @@ using System;
 
 public partial class Paddle : Actor
 {
-  [Export] public float Speed = 50f;
+  [Export] public float Speed = 100f;
 
   public void Move(Vector2 direction, float delta)
   {

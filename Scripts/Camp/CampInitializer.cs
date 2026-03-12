@@ -73,10 +73,17 @@ public partial class CampInitializer : Node
 
     playerGol.SetAdversaryPaddle(paddleEnemy);
   }
+  private void OnScoreUpdate(int playerScore, int enemyScore)
+    => scoreHud.SetScore(playerScore, enemyScore);
 
   private void SetupScore()
   {
     ScoreControll.Instance.ResetScore();
-    ScoreControll.Instance.ScoreUpdate += (playerScore, enemyScore) => scoreHud.SetScore(playerScore, enemyScore);
+    ScoreControll.Instance.ScoreUpdate += OnScoreUpdate;
+  }
+
+  public void Cleanup()
+  {
+    ScoreControll.Instance.ScoreUpdate -= OnScoreUpdate;
   }
 }
