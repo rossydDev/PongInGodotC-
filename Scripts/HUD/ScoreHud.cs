@@ -23,6 +23,8 @@ public partial class ScoreHud : CanvasLayer
 
     if (flashRect != null)
       flashRect.Modulate = new Color(1, 1, 1, 0);
+
+    TreeExiting += () => GameManager.Instance.OnGameStateChanged -= OnGameStateChanged;
   }
 
   private async void OnGameStateChanged()
@@ -41,6 +43,7 @@ public partial class ScoreHud : CanvasLayer
 
       // 2. Pequeno delay para o flash respirar antes da animação
       await ToSignal(GetTree().CreateTimer(0.12f, true, false, true), SceneTreeTimer.SignalName.Timeout);
+      if (!IsInstanceValid(this)) return;
 
       // 3. Anima os dois labels
       AnimateScore(scorer, scored: true);
@@ -112,6 +115,7 @@ public partial class ScoreHud : CanvasLayer
     tween.TweenProperty(label, "position", origin + new Vector2(10, 0), 0.04f);
     tween.TweenProperty(label, "position", origin - new Vector2(10, 0), 0.04f);
     await ToSignal(tween, Tween.SignalName.Finished);
+    if (!IsInstanceValid(this)) return;
     label.Position = origin; // garante volta à posição original
   }
 
@@ -130,7 +134,12 @@ public partial class ScoreHud : CanvasLayer
     Engine.TimeScale = 0.08f;
     await ToSignal(GetTree().CreateTimer(0.1f, true, false, true), SceneTreeTimer.SignalName.Timeout);
 
-    // Volta suavemente ao TimeScale normal
+    if (!IsInstanceValid(this))
+    {
+      Engine.TimeScale = 1.0f; // garante que o TimeScale volta mesmo se o nó morreu
+      return;
+    }
+
     Tween tween = CreateTween();
     tween.TweenProperty(Engine.Singleton, "time_scale", 1.0f, 0.2f);
   }

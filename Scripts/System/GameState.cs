@@ -4,8 +4,6 @@ public enum GameState
   Intro,
   Start,
   Scored,
-  PlayerWinPending,
-  EnemyWinPending,
   PlayerWin,
   PlayerLoser,
   PlayerScore,

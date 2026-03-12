@@ -1,6 +1,10 @@
 using Godot;
-using System;
 
+/// <summary>
+/// Responsável apenas por contar e expor os scores.
+/// Listener passivo: reage a PlayerScore/EnemyScore confirmados pelo pipeline.
+/// Não toma decisões — não dispara vitória, não dispara diálogo.
+/// </summary>
 public partial class ScoreControll : Node
 {
   public static ScoreControll Instance { get; private set; }
@@ -26,16 +30,17 @@ public partial class ScoreControll : Node
 
   private void OnGameStateChanged()
   {
-    if (GameManager.Instance.CurrentState == GameState.PlayerScore)
+    switch (GameManager.Instance.CurrentState)
     {
-      PlayerScore++;
-      EmitSignal(SignalName.ScoreUpdate, PlayerScore, EnemyScore);
-    }
-    else if (GameManager.Instance.CurrentState == GameState.EnemyScore)
-    {
-      EnemyScore++;
-      EmitSignal(SignalName.ScoreUpdate, PlayerScore, EnemyScore);
+      case GameState.PlayerScore:
+        PlayerScore++;
+        EmitSignal(SignalName.ScoreUpdate, PlayerScore, EnemyScore);
+        break;
+
+      case GameState.EnemyScore:
+        EnemyScore++;
+        EmitSignal(SignalName.ScoreUpdate, PlayerScore, EnemyScore);
+        break;
     }
   }
-
 }

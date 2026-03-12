@@ -1,7 +1,22 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 
-public partial class DialogueTriggerComponent : Node
+/// <summary>
+/// Intercepta transições de estado para disparar diálogos antes de confirmá-las.
+/// Priority=0 — executa primeiro no pipeline, antes do VictoryConditionComponent.
+///
+/// Gatilhos de Score:
+///   Intercepta PlayerScore/EnemyScore → verifica se há diálogo configurado
+///   para o score atual → roda diálogo → confirma a transição original
+///
+/// Gatilhos de Vitória/Derrota:
+///   Intercepta PlayerWin/PlayerLoser → roda diálogo → confirma
+///
+/// Gatilho de Intro:
+///   Escuta OnGameStateChanged passivamente (não intercepta, só dispara diálogo)
+/// </summary>
+public partial class DialogueTriggerComponent : Node, IStateInterceptor
 {
   [ExportGroup("Gatilhos de Estado")]
   [Export] private DialogueSequence onMatchStart;
@@ -15,94 +30,128 @@ public partial class DialogueTriggerComponent : Node
   private readonly HashSet<int> firedPlayerScoreTriggers = new();
   private readonly HashSet<int> firedEnemyScoreTriggers = new();
 
-  // Estado pendente aguardando fim do diálogo
-  private GameState? pendingState = null;
+  public int Priority => 0;
 
   public override void _Ready()
   {
+    GameManager.Instance.RegisterInterceptor(this);
     GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
+
+    TreeExiting += () =>
+    {
+      GameManager.Instance.UnregisterInterceptor(this);
+      GameManager.Instance.OnGameStateChanged -= OnGameStateChanged;
+    };
   }
 
   public void Initialize()
   {
-    ScoreControll.Instance.ScoreUpdate += OnScoreUpdate;
+    // Mantido para compatibilidade com CampInitializer
+    // Registro no pipeline já acontece no _Ready
   }
 
-  private void OnGameStateChanged()
+  // ── IStateInterceptor ─────────────────────────────────────────────────────
+
+  public bool CanIntercept(GameState requestedState)
   {
-    switch (GameManager.Instance.CurrentState)
+    return requestedState == GameState.PlayerScore
+        || requestedState == GameState.EnemyScore
+        || requestedState == GameState.PlayerWin
+        || requestedState == GameState.PlayerLoser;
+  }
+
+  public void Intercept(GameState requestedState, Action confirm)
+  {
+    DialogueSequence dialogue = null;
+
+    switch (requestedState)
     {
-      case GameState.Intro:
-        firedPlayerScoreTriggers.Clear();
-        firedEnemyScoreTriggers.Clear();
-        TryTrigger(onMatchStart, null);
+      case GameState.PlayerScore:
+        // +1 antecipado para checar o score que vai ser registrado
+        dialogue = FindScoreTrigger(
+          onPlayerScore,
+          ScoreControll.Instance.PlayerScore + 1,
+          firedPlayerScoreTriggers
+        );
         break;
 
-      case GameState.PlayerWinPending:
-        TryTrigger(onPlayerWin, GameState.PlayerWin);
+      case GameState.EnemyScore:
+        dialogue = FindScoreTrigger(
+          onEnemyScore,
+          ScoreControll.Instance.EnemyScore + 1,
+          firedEnemyScoreTriggers
+        );
         break;
 
-      case GameState.EnemyWinPending:
-        TryTrigger(onEnemyWin, GameState.PlayerLoser);
+      case GameState.PlayerWin:
+        dialogue = onPlayerWin;
+        break;
+
+      case GameState.PlayerLoser:
+        dialogue = onEnemyWin;
         break;
     }
-  }
 
-  private void OnScoreUpdate(int playerScore, int enemyScore)
-  {
-    CheckScoreTriggers(onPlayerScore, playerScore, firedPlayerScoreTriggers);
-    CheckScoreTriggers(onEnemyScore, enemyScore, firedEnemyScoreTriggers);
-  }
-
-  private void CheckScoreTriggers(
-    DialogueScoreTrigger[] triggers,
-    int currentScore,
-    HashSet<int> fired)
-  {
-    if (triggers == null) return;
-
-    foreach (var trigger in triggers)
+    if (dialogue == null)
     {
-      if (trigger?.Dialogue == null) continue;
-      if (fired.Contains(trigger.AtScore)) continue;
-      if (currentScore < trigger.AtScore) continue;
-
-      fired.Add(trigger.AtScore);
-      TryTrigger(trigger.Dialogue, null);
-    }
-  }
-
-  // Se tem diálogo: intercepta e guarda o próximo estado para emitir ao terminar
-  // Se não tem: emite o próximo estado direto
-  private void TryTrigger(DialogueSequence sequence, GameState? stateAfter)
-  {
-    pendingState = stateAfter;
-
-    if (sequence == null)
-    {
-      FlushPendingState();
+      confirm();
       return;
     }
 
+    // Roda diálogo e confirma quando terminar
     DialogueManager.Instance.OnDialogueFinished += OnDialogueFinished;
-    DialogueManager.Instance.StartDialogue(sequence);
+    _pendingConfirm = confirm;
+    DialogueManager.Instance.StartDialogue(dialogue);
   }
+
+  // ── Listener passivo (Intro) ──────────────────────────────────────────────
+
+  private void OnGameStateChanged()
+  {
+    if (GameManager.Instance.CurrentState != GameState.Intro) return;
+
+    firedPlayerScoreTriggers.Clear();
+    firedEnemyScoreTriggers.Clear();
+
+    if (onMatchStart == null) return;
+
+    // Intro não intercepta o pipeline — apenas dispara o diálogo
+    // MatchIntroComponent aguarda OnDialogueFinished para iniciar o countdown
+    DialogueManager.Instance.StartDialogue(onMatchStart);
+  }
+
+  // ── Controle interno de diálogo ───────────────────────────────────────────
+
+  private Action _pendingConfirm;
 
   private void OnDialogueFinished()
   {
     DialogueManager.Instance.OnDialogueFinished -= OnDialogueFinished;
 
-    // Diálogos situacionais (stateAfter = null) voltam para Start
-    if (pendingState == null)
-      GameManager.Instance.SwitchState(GameState.Start);
-    else
-      FlushPendingState();
+    var confirm = _pendingConfirm;
+    _pendingConfirm = null;
+    confirm?.Invoke();
   }
 
-  private void FlushPendingState()
+  // ── Helpers ───────────────────────────────────────────────────────────────
+
+  private DialogueSequence FindScoreTrigger(
+    DialogueScoreTrigger[] triggers,
+    int score,
+    HashSet<int> fired)
   {
-    if (pendingState == null) return;
-    GameManager.Instance.SwitchState(pendingState.Value);
-    pendingState = null;
+    if (triggers == null) return null;
+
+    foreach (var trigger in triggers)
+    {
+      if (trigger?.Dialogue == null) continue;
+      if (fired.Contains(trigger.AtScore)) continue;
+      if (score != trigger.AtScore) continue; // exato, não >=
+
+      fired.Add(trigger.AtScore);
+      return trigger.Dialogue;
+    }
+
+    return null;
   }
 }
