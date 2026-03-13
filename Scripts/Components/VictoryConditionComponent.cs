@@ -5,12 +5,9 @@ using System;
 /// Intercepta PlayerScore e EnemyScore para verificar condição de vitória.
 /// Priority=10 — roda depois do DialogueTriggerComponent (Priority=0).
 ///
-/// Fluxo:
-///   RequestStateChange(PlayerScore)
-///     → DialogueTrigger intercepta se tiver diálogo de score → confirma
-///     → VictoryCondition: score >= scoreToWin?
-///         sim → RequestStateChange(PlayerWin) — passa pelo pipeline de novo
-///         não → confirma PlayerScore normalmente
+/// Quando o score atinge o limite, NÃO confirma o estado de score —
+/// redireciona direto para PlayerWin ou PlayerLoser.
+/// O ScoreControll incrementa ao ouvir PlayerWin/PlayerLoser.
 /// </summary>
 public partial class VictoryConditionComponent : Node, IStateInterceptor
 {
@@ -35,13 +32,10 @@ public partial class VictoryConditionComponent : Node, IStateInterceptor
   {
     if (requestedState == GameState.PlayerScore)
     {
-      // +1 antecipado para avaliar APÓS o score ser incrementado
       int scoreAfter = ScoreControll.Instance.PlayerScore + 1;
-
       if (scoreAfter >= scoreToWin)
       {
-        // Confirma o score primeiro, depois pede vitória
-        confirm();
+        // Sem confirm() — PlayerScore não é confirmado
         GameManager.Instance.RequestStateChange(GameState.PlayerWin);
         return;
       }
@@ -49,16 +43,14 @@ public partial class VictoryConditionComponent : Node, IStateInterceptor
     else if (requestedState == GameState.EnemyScore)
     {
       int scoreAfter = ScoreControll.Instance.EnemyScore + 1;
-
       if (scoreAfter >= scoreToWin)
       {
-        confirm();
+        // Sem confirm() — EnemyScore não é confirmado
         GameManager.Instance.RequestStateChange(GameState.PlayerLoser);
         return;
       }
     }
 
-    // Score não atingiu o limite — deixa a transição continuar normalmente
     confirm();
   }
 }

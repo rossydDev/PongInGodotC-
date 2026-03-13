@@ -41,6 +41,18 @@ public partial class ScoreControll : Node
         EnemyScore++;
         EmitSignal(SignalName.ScoreUpdate, PlayerScore, EnemyScore);
         break;
+
+      // Incrementa o score final quando a vitória foi decidida
+      // (nesses casos o PlayerScore/EnemyScore não foi confirmado)
+      case GameState.PlayerWin:
+        PlayerScore++;
+        EmitSignal(SignalName.ScoreUpdate, PlayerScore, EnemyScore);
+        break;
+
+      case GameState.PlayerLoser:
+        EnemyScore++;
+        EmitSignal(SignalName.ScoreUpdate, PlayerScore, EnemyScore);
+        break;
     }
   }
 }

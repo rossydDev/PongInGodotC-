@@ -1,207 +1,198 @@
 [gd_scene format=3 uid="uid://c7yrcktcyowbd"]
 
-[ext_resource type="FontFile" uid="uid://bfvtl2ykqbbkb" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="1_font"]
-[ext_resource type="Script" uid="uid://cmektruhu3d3m" path="res://Scripts/HUD/GameOverScreen.cs" id="1_xvt1r"]
+[ext_resource type="Script" uid="uid://cmektruhu3d3m" path="res://Scripts/HUD/GameOverScreen.cs" id="1_script"]
+[ext_resource type="FontFile" uid="uid://bfvtl2ykqbbkb" path="res://Assets/Fonts/PressStart2P-Regular.ttf" id="2_font"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
-content_margin_left = 32.0
-content_margin_top = 32.0
-content_margin_right = 32.0
-content_margin_bottom = 32.0
-bg_color = Color(0.04, 0.04, 0.04, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+content_margin_left = 24.0
+content_margin_top = 20.0
+content_margin_right = 24.0
+content_margin_bottom = 20.0
+bg_color = Color(0.06, 0.04, 0.04, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.8, 0.1, 0.1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font = ExtResource("2_font")
+font_size = 14
+font_color = Color(0.9, 0.15, 0.15, 1)
+outline_size = 2
+outline_color = Color(0.3, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_header"]
+font = ExtResource("2_font")
+font_size = 6
+font_color = Color(0.6, 0.6, 0.6, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_score"]
+font = ExtResource("2_font")
+font_size = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_vs"]
+font = ExtResource("2_font")
+font_size = 12
+font_color = Color(0.5, 0.5, 0.5, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_retry_normal"]
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 10.0
+bg_color = Color(0.1, 0.75, 0.3, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
-border_color = Color(1, 1, 1, 1)
+border_color = Color(0.05, 0.4, 0.15, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_title"]
-font = ExtResource("1_font")
-font_size = 20
-font_color = Color(1, 0.2, 0.2, 1)
-outline_size = 4
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_score_label"]
-font = ExtResource("1_font")
-font_size = 9
-font_color = Color(0.7, 0.7, 0.7, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_score_value"]
-font = ExtResource("1_font")
-font_size = 24
-outline_size = 3
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_retry"]
-content_margin_left = 20.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_retry_hover"]
+content_margin_left = 16.0
 content_margin_top = 10.0
-content_margin_right = 20.0
+content_margin_right = 16.0
 content_margin_bottom = 10.0
-bg_color = Color(0.2, 1, 0.6, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
+bg_color = Color(0.2, 0.9, 0.4, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.05, 0.4, 0.15, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_retry_hover"]
-content_margin_left = 20.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_quit_normal"]
+content_margin_left = 16.0
 content_margin_top = 10.0
-content_margin_right = 20.0
-content_margin_bottom = 10.0
-bg_color = Color(0.4, 1, 0.7, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_quit"]
-content_margin_left = 20.0
-content_margin_top = 10.0
-content_margin_right = 20.0
+content_margin_right = 16.0
 content_margin_bottom = 10.0
 bg_color = Color(0.15, 0.15, 0.15, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.6, 0.6, 0.6, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.35, 0.35, 0.35, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_quit_hover"]
-content_margin_left = 20.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_quit_hover"]
+content_margin_left = 16.0
 content_margin_top = 10.0
-content_margin_right = 20.0
+content_margin_right = 16.0
 content_margin_bottom = 10.0
 bg_color = Color(0.25, 0.25, 0.25, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.5, 0.5, 0.5, 1)
 
-[node name="GameOverScreen" type="Control" unique_id=828823216 node_paths=PackedStringArray("playerScoreLabel", "enemyScoreLabel", "retryButton", "quitButton")]
+[node name="GameOverScreen" type="Control" unique_id=763141661 node_paths=PackedStringArray("panel", "dimBg", "titleLabel", "playerScoreLabel", "enemyScoreLabel", "retryButton", "quitButton")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource("1_xvt1r")
-playerScoreLabel = NodePath("DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow/PlayerScore/Value")
-enemyScoreLabel = NodePath("DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow/PlayerScore/Value")
-retryButton = NodePath("DimBg/PanelContainer/MarginContainer/VBoxContainer/ButtonsContainer/RetryButton")
-quitButton = NodePath("DimBg/PanelContainer/MarginContainer/VBoxContainer/ButtonsContainer/QuitButton")
+script = ExtResource("1_script")
+panel = NodePath("Panel")
+dimBg = NodePath("DimBg")
+titleLabel = NodePath("Panel/VBox/TitleLabel")
+playerScoreLabel = NodePath("Panel/VBox/ScoreRow/PlayerCol/PlayerScoreLabel")
+enemyScoreLabel = NodePath("Panel/VBox/ScoreRow/EnemyCol/EnemyScoreLabel")
+retryButton = NodePath("Panel/VBox/RetryButton")
+quitButton = NodePath("Panel/VBox/QuitButton")
 
-[node name="DimBg" type="ColorRect" parent="." unique_id=1645557453]
-layout_mode = 1
-anchors_preset = 15
+[node name="DimBg" type="ColorRect" parent="." unique_id=1890409859]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.29411766)
+color = Color(0, 0, 0, 0.82)
 
-[node name="PanelContainer" type="PanelContainer" parent="DimBg" unique_id=1771149136]
-layout_mode = 1
-anchors_preset = 8
+[node name="Panel" type="PanelContainer" parent="." unique_id=1966244432]
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = -178.0
-offset_right = 260.0
-offset_bottom = 181.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+offset_left = -170.0
+offset_top = -150.0
+offset_right = 170.0
+offset_bottom = 150.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="MarginContainer" type="MarginContainer" parent="DimBg/PanelContainer" unique_id=341180816]
+[node name="VBox" type="VBoxContainer" parent="Panel" unique_id=979029756]
 layout_mode = 2
+theme_override_constants/separation = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="DimBg/PanelContainer/MarginContainer" unique_id=1974995527]
-layout_mode = 2
-theme_override_constants/separation = 24
-
-[node name="Title" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer" unique_id=1923240849]
+[node name="TitleLabel" type="Label" parent="Panel/VBox" unique_id=26234945]
 layout_mode = 2
 text = "GAME OVER"
 label_settings = SubResource("LabelSettings_title")
 horizontal_alignment = 1
 
-[node name="Separator1" type="HSeparator" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer" unique_id=1667519584]
+[node name="HSep1" type="HSeparator" parent="Panel/VBox" unique_id=1577978026]
 layout_mode = 2
 
-[node name="ScoreRow" type="HBoxContainer" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer" unique_id=155826928]
+[node name="ScoreRow" type="HBoxContainer" parent="Panel/VBox" unique_id=2000842929]
 layout_mode = 2
-theme_override_constants/separation = 32
+theme_override_constants/separation = 20
 alignment = 1
 
-[node name="PlayerScore" type="VBoxContainer" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow" unique_id=692229485]
+[node name="PlayerCol" type="VBoxContainer" parent="Panel/VBox/ScoreRow" unique_id=1032829822]
 layout_mode = 2
 theme_override_constants/separation = 6
+alignment = 1
 
-[node name="ScoreLabel" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow/PlayerScore" unique_id=1912648645]
+[node name="PlayerHeader" type="Label" parent="Panel/VBox/ScoreRow/PlayerCol" unique_id=319397105]
 layout_mode = 2
 text = "VOCÊ"
-label_settings = SubResource("LabelSettings_score_label")
+label_settings = SubResource("LabelSettings_header")
 horizontal_alignment = 1
 
-[node name="Value" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow/PlayerScore" unique_id=414329886]
+[node name="PlayerScoreLabel" type="Label" parent="Panel/VBox/ScoreRow/PlayerCol" unique_id=374661638]
 layout_mode = 2
 text = "0"
-label_settings = SubResource("LabelSettings_score_value")
+label_settings = SubResource("LabelSettings_score")
 horizontal_alignment = 1
 
-[node name="Divider" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow" unique_id=2111537465]
+[node name="VsLabel" type="Label" parent="Panel/VBox/ScoreRow" unique_id=713584865]
 layout_mode = 2
-text = "x"
-label_settings = SubResource("LabelSettings_score_value")
-horizontal_alignment = 1
+text = "X"
+label_settings = SubResource("LabelSettings_vs")
 vertical_alignment = 1
 
-[node name="EnemyScore" type="VBoxContainer" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow" unique_id=1388669181]
+[node name="EnemyCol" type="VBoxContainer" parent="Panel/VBox/ScoreRow" unique_id=1626812774]
 layout_mode = 2
 theme_override_constants/separation = 6
+alignment = 1
 
-[node name="ScoreLabel" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow/EnemyScore" unique_id=370369142]
+[node name="EnemyHeader" type="Label" parent="Panel/VBox/ScoreRow/EnemyCol" unique_id=946192204]
 layout_mode = 2
 text = "INIMIGO"
-label_settings = SubResource("LabelSettings_score_label")
+label_settings = SubResource("LabelSettings_header")
 horizontal_alignment = 1
 
-[node name="Value" type="Label" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ScoreRow/EnemyScore" unique_id=1322706396]
+[node name="EnemyScoreLabel" type="Label" parent="Panel/VBox/ScoreRow/EnemyCol" unique_id=668579317]
 layout_mode = 2
 text = "0"
-label_settings = SubResource("LabelSettings_score_value")
+label_settings = SubResource("LabelSettings_score")
 horizontal_alignment = 1
 
-[node name="Separator2" type="HSeparator" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer" unique_id=915937053]
+[node name="HSep2" type="HSeparator" parent="Panel/VBox" unique_id=2041302290]
 layout_mode = 2
 
-[node name="ButtonsContainer" type="VBoxContainer" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer" unique_id=1939473838]
+[node name="RetryButton" type="Button" parent="Panel/VBox" unique_id=1534260372]
 layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="RetryButton" type="Button" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ButtonsContainer" unique_id=967324828]
-layout_mode = 2
-focus_mode = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("1_font")
-theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = SubResource("StyleBoxFlat_button_retry")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_button_retry")
-theme_override_styles/hover = SubResource("StyleBoxFlat_button_retry_hover")
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_retry_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_retry_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_retry_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_retry_normal")
 text = "TENTAR NOVAMENTE"
 
-[node name="QuitButton" type="Button" parent="DimBg/PanelContainer/MarginContainer/VBoxContainer/ButtonsContainer" unique_id=818653621]
+[node name="QuitButton" type="Button" parent="Panel/VBox" unique_id=855688337]
 layout_mode = 2
-focus_mode = 0
-theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("1_font")
-theme_override_font_sizes/font_size = 10
-theme_override_styles/normal = SubResource("StyleBoxFlat_button_quit")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_button_quit")
-theme_override_styles/hover = SubResource("StyleBoxFlat_button_quit_hover")
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxFlat_quit_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_quit_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_quit_hover")
+theme_override_styles/focus = SubResource("StyleBoxFlat_quit_normal")
 text = "MENU PRINCIPAL"

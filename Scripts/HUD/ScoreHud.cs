@@ -31,36 +31,36 @@ public partial class ScoreHud : CanvasLayer
   {
     GameState currentState = GameManager.Instance.CurrentState;
 
-    if (currentState == GameState.PlayerScore || currentState == GameState.EnemyScore)
-    {
-      bool playerScored = currentState == GameState.PlayerScore;
-      Label scorer = playerScored ? playerScoreLabel : enemyScoreLabel;
-      Label loser = playerScored ? enemyScoreLabel : playerScoreLabel;
+    bool isScore = currentState == GameState.PlayerScore
+                || currentState == GameState.EnemyScore;
+    bool isVictory = currentState == GameState.PlayerWin
+                  || currentState == GameState.PlayerLoser;
 
-      // 1. Slow motion + flash simultâneos no momento do ponto
-      MomentumPause();
-      FlashScreen();
+    if (!isScore && !isVictory) return;
 
-      // 2. Pequeno delay para o flash respirar antes da animação
-      await ToSignal(GetTree().CreateTimer(0.12f, true, false, true), SceneTreeTimer.SignalName.Timeout);
-      if (!IsInstanceValid(this)) return;
+    // Para vitória: quem marcou o ponto decisivo é sempre o "scorer"
+    bool playerScored = currentState == GameState.PlayerScore
+                     || currentState == GameState.PlayerWin;
 
-      // 3. Anima os dois labels
-      AnimateScore(scorer, scored: true);
-      AnimateScore(loser, scored: false);
+    Label scorer = playerScored ? playerScoreLabel : enemyScoreLabel;
+    Label loser = playerScored ? enemyScoreLabel : playerScoreLabel;
 
-      // 4. Shake no label do perdedor
-      ShakeLabel(loser);
+    MomentumPause();
+    FlashScreen();
 
-      // 5. Aguarda a animação principal do scorer
-      Tween tweenScorer = AnimateScore(scorer, scored: true);
-      await ToSignal(tweenScorer, Tween.SignalName.Finished);
+    await ToSignal(GetTree().CreateTimer(0.12f, true, false, true), SceneTreeTimer.SignalName.Timeout);
+    if (!IsInstanceValid(this)) return;
 
-      // 6. Pulsa o scorer uma vez antes de sumir
-      await PulseLabel(scorer);
+    AnimateScore(scorer, scored: true);
+    AnimateScore(loser, scored: false);
+    ShakeLabel(loser);
 
-      EmitSignal(SignalName.OnScoreAnimationFinished);
-    }
+    Tween tweenScorer = AnimateScore(scorer, scored: true);
+    await ToSignal(tweenScorer, Tween.SignalName.Finished);
+
+    await PulseLabel(scorer);
+
+    EmitSignal(SignalName.OnScoreAnimationFinished);
   }
 
   private Tween AnimateScore(Label label, bool scored)

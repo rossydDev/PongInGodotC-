@@ -8,7 +8,6 @@ public partial class Main : Node2D
   [Export] private GameOverScreen gameOverScreen;
 
   private Camp currentCamp;
-
   public Camp CurrentCamp => currentCamp;
 
   public override void _Ready()
@@ -31,7 +30,12 @@ public partial class Main : Node2D
 
     currentCamp = scene.Instantiate<Camp>();
     AddChild(currentCamp);
+
+    // Escuta os sinais de fim de partida do Camp (após animação do ScoreHud)
     currentCamp.OnCampReady += OnCurrentCampReady;
+    currentCamp.OnPlayerWin += OnPlayerWin;
+    currentCamp.OnPlayerLoser += OnPlayerLoser;
+
     currentCamp.Initializer(playerPaddleScene);
     DialogueManager.Instance.RegisterGameLayer(currentCamp);
   }
@@ -41,28 +45,32 @@ public partial class Main : Node2D
     GameManager.Instance.SwitchState(GameState.Intro);
   }
 
+  private void OnPlayerWin()
+  {
+    GD.Print("Testando a vitoria!");
+    victoryScreen.ShowVictory();
+  }
+
+  private void OnPlayerLoser()
+  {
+    GD.Print("Testando a derrota!");
+    gameOverScreen.ShowGameOver();
+  }
+
   private async void OnContinue()
   {
     if (TransitionManager.Instance != null)
-    {
       await TransitionManager.Instance.PlayTransition(() => LoadCamp(campScene));
-    }
     else
-    {
       LoadCamp(campScene);
-    }
   }
 
   private async void OnRetry()
   {
     if (TransitionManager.Instance != null)
-    {
       await TransitionManager.Instance.PlayTransition(() => LoadCamp(campScene));
-    }
     else
-    {
       LoadCamp(campScene);
-    }
   }
 
   private void OnQuit()
